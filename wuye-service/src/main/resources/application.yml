@@ -1,0 +1,15 @@
+spring:
+    devtools:
+        restart:
+            enabled: true
+        livereload:
+            enabled: false # we use gulp + BrowserSync for livereload
+    jackson:
+        serialization.indent_output: true
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://182.92.106.144:9176/bnese
+        username: bneseadmin
+        password: tdi9765y
+server:
+    port: 8081
