@@ -47,9 +47,9 @@ public class SnowflakeIdWorker {
     /** 生成序列的掩码，这里为4095 (0b111111111111=0xfff=4095) */
     private final static long sequenceMask = -1L ^ (-1L << sequenceBits);
     /** 工作机器ID(0~31) */
-    private static long workerId = 123L;
+    private static long workerId = 0L;
     /** 数据中心ID(0~31) */
-    private static long datacenterId = 456L;
+    private static long datacenterId = 0L;
     /** 毫秒内序列(0~4095) */
     private static long sequence = 0L;
     /** 上次生成ID的时间戳 */

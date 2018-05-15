@@ -7,10 +7,12 @@ import java.time.LocalDateTime;
  */
 public class EvaluationDTO {
     Long id;
-    Integer residentialDistrictId;
-    Integer rate;
+    int residentialDistrictId;
+    int rate;
     LocalDateTime createTime;
     String comment;
+    long user;
+    String[] imageURL;
 
     public LocalDateTime getCreateTime() {
         return createTime;
@@ -50,5 +52,22 @@ public class EvaluationDTO {
 
     public void setRate(Integer rate) {
         this.rate = rate;
+    }
+
+
+    public long getUser() {
+        return user;
+    }
+
+    public void setUser(long user) {
+        this.user = user;
+    }
+
+    public String[] getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String[] imageURL) {
+        this.imageURL = imageURL;
     }
 }

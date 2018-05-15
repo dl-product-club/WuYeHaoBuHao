@@ -38,6 +38,14 @@ public class EvaluationService {
     public void review(@RequestBody EvaluationDTO user) {
 
     }
+
+    public List<ResidentialDistrictPO> search(String keyword) {
+        return null;
+    }
+
+    public List<EvaluationPO> getAllEvaluation(Integer residentialDistrictId) {
+        return null;
+    }
 }
 
 
