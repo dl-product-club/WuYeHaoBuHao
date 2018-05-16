@@ -1,10 +1,7 @@
 package com.datanese.wuye.mapper;
 
-import com.datanese.wuye.dto.EvaluationDTO;
-import com.datanese.wuye.po.AccountPO;
 import com.datanese.wuye.po.EvaluationPO;
-import com.datanese.wuye.po.ResidentialDistrictPO;
-import com.datanese.wuye.po.UserPO;
+import com.datanese.wuye.po.CommunityPO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -17,7 +14,7 @@ public interface EvaluationMapper {
 		@Result(property = "id",  column = "id"),
 		@Result(property = "name", column = "name")
 	})
-	List<ResidentialDistrictPO> getAllResidentialDistrict();
+	List<CommunityPO> getAllResidentialDistrict();
 
 
 	@Select("SELECT * FROM evaluation WHERE residential_district = #{residentialDistrictId} and rate>0")

@@ -3,7 +3,7 @@ package com.datanese.wuye.po;
 /**
  * Created by bing.a.qian on 9/10/2017.
  */
-public class ResidentialDistrictPO {
+public class CommunityPO {
     Integer id;
     String name;
 

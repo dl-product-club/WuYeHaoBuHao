@@ -3,29 +3,22 @@ package com.datanese.wuye.rest;
 import com.aliyun.oss.common.utils.IOUtils;
 import com.datanese.wuye.dto.EvaluationDTO;
 import com.datanese.wuye.dto.ImageDTO;
-import com.datanese.wuye.dto.WeixinAccountDTO;
 import com.datanese.wuye.po.EvaluationPO;
-import com.datanese.wuye.po.ResidentialDistrictPO;
+import com.datanese.wuye.po.CommunityPO;
 import com.datanese.wuye.service.AliyunOSSStorageService;
 import com.datanese.wuye.service.EvaluationService;
-import com.datanese.wuye.service.UserService;
 import com.datanese.wuye.util.SnowflakeIdWorker;
-import com.sun.imageio.plugins.common.ImageUtil;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -39,16 +32,6 @@ public class EvaluationController {
 
     @Autowired
     AliyunOSSStorageService aliyunOSSStorageService;
-
-    @GetMapping("/residentialDistricts")
-    public List<ResidentialDistrictPO> getAllResidentialDistrict(@RequestParam String keyword) {
-        if(StringUtils.isEmpty(keyword)){
-            List<ResidentialDistrictPO> allResidentialDistrict = evaluationService.getAllResidentialDistrict();
-            return allResidentialDistrict;
-        }
-        return evaluationService.search(keyword);
-
-    }
 
     @GetMapping("/evaluations/{residentialDistrictId}")
     public  List<EvaluationPO> getAllEvaluation(@PathVariable Integer residentialDistrictId) {

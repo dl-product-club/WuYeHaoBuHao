@@ -1,14 +1,8 @@
 package com.datanese.wuye.service;
 
 import com.datanese.wuye.dto.EvaluationDTO;
-import com.datanese.wuye.dto.WeixinAccountDTO;
-import com.datanese.wuye.po.AccountPO;
 import com.datanese.wuye.po.EvaluationPO;
-import com.datanese.wuye.po.ResidentialDistrictPO;
-import com.datanese.wuye.po.UserPO;
-import com.datanese.wuye.mapper.UserMapper;
-import com.datanese.wuye.util.SnowflakeIdWorker;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.datanese.wuye.po.CommunityPO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +16,7 @@ import java.util.List;
  */
 @Service
 public class EvaluationService {
-    public List<ResidentialDistrictPO> getAllResidentialDistrict(){
+    public List<CommunityPO> getAllResidentialDistrict(){
         return null;
     }
     public  List<EvaluationPO>  getAllGoodEvaluation(Integer residentialDistrictId){
@@ -39,7 +33,7 @@ public class EvaluationService {
 
     }
 
-    public List<ResidentialDistrictPO> search(String keyword) {
+    public List<CommunityPO> search(String keyword) {
         return null;
     }
 
