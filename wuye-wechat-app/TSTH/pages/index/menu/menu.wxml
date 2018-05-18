@@ -1,0 +1,19 @@
+<view class="menu">
+    <!-- <view class="handler">
+      请选择物业
+    </view>    -->
+    
+    <!-- <view hover-class="bg_gray" >1</view> -->
+    <view class="tile">请选择物业</view>
+    <view class="tab" 
+        data-id="{{tab.id}}" 
+        bindtap="selectTab"
+        wx:for="{{tabs}}" 
+        wx:for-item="tab"
+        wx:key="tab.id" 
+        wx:for-index="idx">
+     {{tab.name}}
+     </view> 
+
+
+</view>

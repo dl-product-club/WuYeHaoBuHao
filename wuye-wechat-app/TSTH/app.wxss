@@ -1,0 +1,23 @@
+/**app.wxss**/
+/* .container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+}  */
+@import './assets/wxss/iconfont.wxss';
+@import './assets/wxss/weui.wxss';
+
+.flex-wrp {display: flex;}
+.hover_green{
+  background-color: #109010 !important;
+}
+.hover_white{
+  background-color: #f4f4f4 !important;
+}
+button{
+  border-radius: 0;
+}

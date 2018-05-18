@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "Home",
+  "usingComponents": {
+    "menu": "./menu/menu"
+  }
+}

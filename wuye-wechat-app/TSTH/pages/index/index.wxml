@@ -1,0 +1,69 @@
+<view class="container" >
+    <view bindtap="openMenuFn" class="{{openMenu ? 'menuIn' : 'menuOut'}} menu">
+        <menu bind:changetab="_cChangeTabFn"></menu>
+    </view> 
+     <view  class="{{openMenu ? 'contentOut' : 'contentIn'}} main">
+     <view  catchtap="openMenuFn" class="topbar">
+        <span class="menu_icon"></span>
+      </view>
+     <view wx:if="{{openMenu}}" catchtap="PanelClickFn" class="mask"></view>
+        <view class="userinfo info_bg">
+          <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+          <block wx:else>
+            <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+            <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+          </block>
+        </view>
+        <view class="flex-wrp" style="flex-direction:row;">
+          <view class="like" hover-class="hover_like" catchtap='likeFn'>
+              <view class="flex-wrp" style="flex-direction:column;">
+                <view class="thumb_con" ><i class="icon iconfont icon-thumbsup"></i></view>
+                <text>{{like}}</text>
+              </view>
+          </view>
+          <view class="dislike" hover-class="hover_dislike" catchtap='dislikeFn'>
+            <view class="flex-wrp" style="flex-direction:column;">
+              <view class="thumb_con"  ><i class="icon iconfont icon-thumbsdown"></i></view>
+              <text>{{dislike}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="btn_con"><button catchtap="createPostFn" hover-class="hover_green" type="primary">我要吐槽</button></view>
+        
+        <ul class="list_con flex-wrp" style="flex-direction:column;">
+          <li class="list_item"
+                wx:for="{{hotLists}}" 
+                wx:for-item="list"  
+                bind:tap='goToDetailFn' data-id="{{list.id}}"
+                wx:key="list.id" 
+                wx:for-index="idx"
+                 >
+              <view data-id="{{list.id}}" class="list_title">{{list.tilte}}</view>
+              <text data-id="{{list.id}}" class="des">{{list.descript}}</text>
+          </li>
+        </ul>
+        <view class="view_more_con"><text class="view_more" catchtap="createPostFn">查看更多</text></view>
+        
+
+
+    </view>
+    
+     
+</view>
+
+
+
+<!-- <view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+</view> -->
+

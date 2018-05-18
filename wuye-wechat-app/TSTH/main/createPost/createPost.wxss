@@ -1,0 +1,18 @@
+/* main/createPost/createPost.wxss */
+.clause{
+  color: #586ca1;
+}
+.btn_con{
+  padding: 0 40rpx;
+  margin: 20rpx 0;
+}
+.img_pos{
+  height:200rpx;
+  width:200rpx;
+  display:inline-block;
+}
+.weui-uploader__input-box{
+  float: none;
+  display: block;
+}
+.weui-uploader__bd:after{display:block;clear:both;content:"";visibility:hidden;height:0} 

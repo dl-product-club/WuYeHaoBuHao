@@ -1,0 +1,32 @@
+/* pages/index/menu/menu.wxss */
+.menu{
+  width: 240rpx;
+  position: fixed;
+  height: 100%;
+  padding: 20rpx;
+  background: #1d224b;
+  color: #fff;  
+}
+.handler{
+  position:absolute;
+  width: 100%;
+  left:280rpx;
+  background:#b7e3fe;
+  box-sizing:border-box;
+  padding:10rpx;
+  top: 0;
+  z-index: 99;
+}
+.tile{
+  font-size: 36rpx;
+  border-bottom:2rpx solid #e5e5e5; 
+}
+.tab{
+  margin:10rpx 0;
+  padding:10rpx;
+  line-height:40rpx;
+  font-size: 30rpx;
+}
+.tab + .tab{
+  border-top:2rpx solid #e5e5e5; 
+}

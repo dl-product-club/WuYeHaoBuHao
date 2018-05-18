@@ -1,0 +1,6 @@
+/* main/postDetail/postDetail.wxss */
+.container{
+  padding: 40rpx;
+}
+
+

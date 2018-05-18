@@ -1,0 +1,49 @@
+<form bindsubmit="formSubmit" bindreset="formReset">
+  <view class="weui-cells__title">标题</view>
+
+   <view class="weui-cell">
+       <view  class="weui-cell__bd">
+          <input  class="weui-input" name="title" placeholder="请输入标题" type="text" />
+      </view> 
+  </view> 
+  <view  class="weui-cell weui-cells__title"> 评价 </view>
+  <div class="weui-cell weui-cell__bd">
+      <textarea class="weui-textarea" maxlength="200" 
+        name="comment" placeholder="请输入评价" rows="3" weui-cn="2" weui-textarea="">
+      </textarea>
+  </div>
+
+  <div class="weui-cell">
+      <div class="weui-cell__bd">
+          <div class="weui-uploader">
+              <div class="weui-uploader__hd">
+                  <p class="weui-uploader__title">图片上传</p>
+              </div>
+               <div class='img_con'>
+                <block wx:for="{{imgslist}}" wx:for-index="index"
+                    wx:for-item="img" wx:key="img"
+                    bind:tap='goToDetailFn'>    
+                    <image src="{{img}}" class="slide-image img_pos" mode="aspectFill"/> 
+                </block>   
+              </div>  
+              <div  class="weui-uploader__bd">
+                  <div class="weui-uploader__input-box" catchtap="chooseImageFn">
+                      <!-- <input accept="image/*" class="weui-uploader__input" multiple="" type="file" /> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <label  class="weui-agree" for="weuiAgree">
+      <checkbox  name="agree" />
+      <span  class="weui-agree__text">
+          阅读并同意<text class="clause">《相关条款》</text>
+      </span>
+  </label>
+
+  <view class="btn_con">
+    <button catchtap="createPostFn" hover-class="hover_green" type="primary">我要吐槽</button>
+    <button formType="reset">Reset</button>
+  </view>
+  
+</form>
