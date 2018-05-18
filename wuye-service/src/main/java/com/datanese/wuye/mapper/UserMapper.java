@@ -45,4 +45,6 @@ public interface UserMapper {
 	})
 	AccountPO getUserAccountByWeixinId(String weixinId);
 
+	@Update("UPDATE user_community SET community_id=#{communityId} WHERE user_id =#{userId}")
+    void setUserDefaultCommunity(long userId, int communityId);
 }

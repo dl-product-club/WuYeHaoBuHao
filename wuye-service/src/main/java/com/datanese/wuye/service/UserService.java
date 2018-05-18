@@ -66,4 +66,8 @@ public class UserService {
         }
 
     }
+
+    public void setUserDefaultCommunity(long userId, int communityId) {
+        userMapper.setUserDefaultCommunity(userId,communityId);
+    }
 }

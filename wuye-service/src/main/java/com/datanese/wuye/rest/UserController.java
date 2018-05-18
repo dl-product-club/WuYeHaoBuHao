@@ -51,6 +51,10 @@ public class UserController {
     public void delete(@PathVariable("id") Long id) {
         userService.delete(id);
     }
-    
+
+    @PutMapping("/setUserDefaultCommunity/{userId}/{communityId}")
+    public void subscribe(@PathVariable("userId") long userId,@PathVariable("communityId") int communityId) {
+        userService.setUserDefaultCommunity(userId,communityId);
+    }
     
 }
