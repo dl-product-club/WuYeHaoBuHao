@@ -6,6 +6,7 @@ package com.datanese.wuye.po;
 public class CommunityPO {
     Integer id;
     String name;
+    String image;
 
 
     public Integer getId() {
@@ -22,5 +23,13 @@ public class CommunityPO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

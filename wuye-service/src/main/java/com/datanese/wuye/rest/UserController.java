@@ -1,10 +1,25 @@
 package com.datanese.wuye.rest;
 
-import com.datanese.wuye.dto.WeixinAccountDTO;
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import com.datanese.wuye.Constant;
+import com.datanese.wuye.ErrorCode;
+import com.datanese.wuye.dto.CommunityDTO;
+import com.datanese.wuye.dto.ResultDTO;
 import com.datanese.wuye.po.UserPO;
 import com.datanese.wuye.service.UserService;
 
+import com.datanese.wuye.session.SessionEntity;
+import com.datanese.wuye.util.JsonUtils;
+import com.datanese.wuye.util.SnowflakeIdWorker;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -13,6 +28,120 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private WxMaService wxService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+    /**
+     * 登陆接口
+     */
+    @GetMapping("/login/{id}")
+    public String login(@PathVariable("code") String code) {
+        if (StringUtils.isBlank(code)) {
+            return "empty jscode";
+        }
+
+        try {
+            //获取openid, session_key
+            WxMaJscode2SessionResult session = this.wxService.getUserService().getSessionInfo(code);
+            String sessionKey=session.getSessionKey();
+            String openId=session.getOpenid();
+            logger.info(session.getSessionKey());
+            logger.info(session.getOpenid());
+
+            //生成系统自有sessionId
+            String sessionId= "sessionId"+SnowflakeIdWorker.nextId();
+            SessionEntity se=new SessionEntity();
+            se.setSessionKey(sessionKey);
+            se.setOpenId(openId);
+            redisTemplate.opsForValue().set(sessionId,se);
+            se=  (SessionEntity)redisTemplate.opsForValue().get(sessionId);
+            return sessionId;
+//            return JsonUtils.toJson(sessionId);
+        } catch (WxErrorException e) {
+           logger.error(e.getMessage(), e);
+            return e.toString();
+        }
+    }
+
+
+    /**
+     * <pre>
+     * 创建或者更新用户信息
+     * </pre>
+     */
+    @GetMapping("/updateUserInfo")
+    @ResponseBody
+    public ResultDTO updateUserInfo(@RequestHeader HttpHeaders headers, String signature, String rawData, String encryptedData, String iv) {
+        ResultDTO resultDTO=new ResultDTO();
+        //需要验证
+        String sessionId=headers.getFirst("sessionId");
+        if(StringUtils.isBlank(sessionId)){
+            resultDTO.setResult(Constant.RESPONSE_RESULT_FAIL);
+            resultDTO.setErrorCode(ErrorCode.SESSION_EXPIRED.getCode());
+            resultDTO.setMessage(ErrorCode.SESSION_EXPIRED.getDesc());
+            return resultDTO;
+        }
+
+
+        SessionEntity se= (SessionEntity)redisTemplate.opsForValue().get(sessionId);
+        if(se==null){
+            // session 过期
+            resultDTO.setResult(Constant.RESPONSE_RESULT_FAIL);
+            resultDTO.setErrorCode(ErrorCode.SESSION_EXPIRED.getCode());
+            resultDTO.setMessage(ErrorCode.SESSION_EXPIRED.getDesc());
+            return resultDTO;
+        }
+
+        String sessionKey=se.getSessionKey();
+        String openId=se.getOpenId();
+
+        // 用户信息校验
+        if (!this.wxService.getUserService().checkUserInfo(sessionKey, rawData, signature)) {
+            resultDTO.setResult(Constant.RESPONSE_RESULT_FAIL);
+            resultDTO.setErrorCode(ErrorCode.SESSION_EXPIRED.getCode());
+            resultDTO.setMessage(ErrorCode.SESSION_EXPIRED.getDesc());
+            return resultDTO;
+        }
+
+        // 解密用户信息
+        WxMaUserInfo userInfo = this.wxService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
+
+        //创建或者更新用户信息
+        long userId=userService.createOrUpdate(userInfo);
+        se=new SessionEntity();
+        se.setUserId(userId);
+        se.setSessionKey(sessionKey);
+        se.setOpenId(openId);
+
+        redisTemplate.opsForValue().set(sessionId,se);
+        resultDTO.setResult(Constant.RESPONSE_RESULT_OK);
+        return resultDTO;
+    }
+
+
+
+    /**
+     * <pre>
+     * 获取用户信息接口
+     * </pre>
+     */
+    @GetMapping("/info")
+    public String info(@RequestHeader HttpHeaders headers, String sessionKey, String signature, String rawData, String encryptedData, String iv) {
+        // 用户信息校验
+        if (!this.wxService.getUserService().checkUserInfo(sessionKey, rawData, signature)) {
+            return "user check failed";
+        }
+
+        // 解密用户信息
+        WxMaUserInfo userInfo = this.wxService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
+        return JsonUtils.toJson(userInfo);
+    }
+
 
 	@GetMapping("/hello")
 	public String getUsers() {
@@ -26,35 +155,25 @@ public class UserController {
 //		return users;
 //	}
 
-    @PostMapping("/subscribe")
-    public void subscribe(@RequestBody WeixinAccountDTO user) {
-        userService.subscribe(user);
-    }
+//    @PostMapping("/subscribe")
+//    public void subscribe(@RequestBody WeixinAccountDTO user) {
+//        userService.subscribe(user);
+//    }
 
     @GetMapping("/getUser/{id}")
     public UserPO getUser(@PathVariable("id") Long id) {
     	UserPO user=userService.getUser(id);
         return user;
     }
-    
-//    @PostMapping("/add")
-//    public void save(@RequestBody UserPO user) {
-//        userService.save(user);
-//    }
-    
-    @PutMapping(value="/update/{id}")
-    public void update(@RequestBody UserPO user, @PathVariable("id") Long id) {
-        userService.update(user,id);
-    }
-    
-    @DeleteMapping(value="/delete/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        userService.delete(id);
-    }
 
     @PutMapping("/setUserDefaultCommunity/{userId}/{communityId}")
     public void subscribe(@PathVariable("userId") long userId,@PathVariable("communityId") int communityId) {
+        //需要校验
         userService.setUserDefaultCommunity(userId,communityId);
     }
-    
+    @GetMapping("/userDefaultCommunity/{userId}")
+    public CommunityDTO getUserDefaultCommunity(@PathVariable long userId) {
+        //需要校验
+        return userService.getUserDefaultCommunity(userId);
+    }
 }

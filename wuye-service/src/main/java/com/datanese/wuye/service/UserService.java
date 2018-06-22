@@ -1,9 +1,11 @@
 package com.datanese.wuye.service;
 
-import com.datanese.wuye.dto.WeixinAccountDTO;
-import com.datanese.wuye.po.AccountPO;
-import com.datanese.wuye.po.UserPO;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import com.datanese.wuye.dto.CommunityDTO;
+import com.datanese.wuye.mapper.CommunityMapper;
 import com.datanese.wuye.mapper.UserMapper;
+import com.datanese.wuye.po.UserPO;
+import com.datanese.wuye.po.WeixinAccountPO;
 import com.datanese.wuye.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,51 +24,56 @@ public class UserService {
         return user;
     }
 
-
-    public void update(UserPO user, Long id) {
-        userMapper.update(user);
-    }
-
-    public void delete(Long id) {
-        userMapper.delete(id);
-    }
-
-    public void subscribe(WeixinAccountDTO user) {
+    public long createOrUpdate(WxMaUserInfo user) {
         //check if user exists
-        String weixinId=user.getOpenid();
-        AccountPO accountPO=userMapper.getUserAccountByWeixinId(weixinId);
-        if(accountPO==null){
+        long userId;
+        String weixinId = user.getOpenId();
+        UserPO userPO = userMapper.getUserByWeixinId(weixinId);
+        if (userPO == null) {
+            userId=subscribe(user);
+        }else{
+            update(user);
+            userId=userPO.getId();
+        }
+        return userId;
+    }
+    public void update(WxMaUserInfo user){
+
+//        userMapper.update();
+    }
+
+
+    public long subscribe(WxMaUserInfo user) {
             //create new account and user
-            Long newAccountId=SnowflakeIdWorker.nextId();
-            accountPO=new AccountPO();
+            Long userId=SnowflakeIdWorker.nextId();
+            WeixinAccountPO weixinAccountPO=new WeixinAccountPO();
             {
-                accountPO.setAccountId(newAccountId);
-                accountPO.setWeixinId(weixinId);
+                weixinAccountPO.setUserId(userId);
+                weixinAccountPO.setOpenid(user.getOpenId());
+                weixinAccountPO.setNickname(user.getNickName());
+                weixinAccountPO.setCity(user.getCity());
+                weixinAccountPO.setProvince(user.getProvince());
+                weixinAccountPO.setAvatarUrl(user.getAvatarUrl());
+                weixinAccountPO.setCountry(user.getCountry());
+                weixinAccountPO.setGender(user.getGender());
+
             }
             UserPO userPO=new UserPO();
             {
-                userPO.setAccountId(newAccountId);
-                userPO.setAccountName(user.getNickname());
-                userPO.setCity(user.getCity());
-                userPO.setProvince(user.getProvince());
-                userPO.setCountry(user.getCountry());
-                if(user.getSex()==1){
-                    userPO.setGender('M');
-                }else if(user.getSex()==2){
-                    userPO.setGender('F');
-                }else{
-                    userPO.setGender('U');
-                }
-
+                userPO.setId(userId);
+                userPO.setName(user.getNickName());
+                userPO.setAvatarUrl(user.getAvatarUrl());
+                userPO.setGender(user.getGender());
+                userPO.setWeixinId(user.getOpenId());
             }
-            userMapper.insertAccount(accountPO);
+            userMapper.insertWeixinAccount(weixinAccountPO);
             userMapper.insertUser(userPO);
-        }else{
-            //update user
-        }
-
+            return userId;
     }
 
+    public CommunityDTO getUserDefaultCommunity(long userId) {
+        return userMapper.getUserDefaultCommunity(userId);
+    }
     public void setUserDefaultCommunity(long userId, int communityId) {
         userMapper.setUserDefaultCommunity(userId,communityId);
     }

@@ -1,62 +1,62 @@
 package com.datanese.wuye.po;
 
+/**
+ * Created by bing.a.qian on 9/8/2017.
+ */
+public class UserPO {
+    Long id;
+    //目前是关联微信的openid
+    String weixinId;
+    String createTime;
+    String name;
+    String gender;
+    String avatarUrl;
 
-import java.io.Serializable;
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
-public class UserPO implements Serializable {
-	Long accountId;
-	String accountName;
-	char gender;
-	String city;
-	String province;
-	String country;
+    public String getGender() {
+        return gender;
+    }
 
-	public Long getAccountId() {
-		return accountId;
-	}
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
-	}
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
 
-	public String getAccountName() {
-		return accountName;
-	}
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public char getGender() {
-		return gender;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setGender(char gender) {
-		this.gender = gender;
-	}
+    public String getWeixinId() {
+        return weixinId;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setWeixinId(String weixinId) {
+        this.weixinId = weixinId;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getCreateTime() {
+        return createTime;
+    }
 
-	public String getProvince() {
-		return province;
-	}
-
-	public void setProvince(String province) {
-		this.province = province;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 }

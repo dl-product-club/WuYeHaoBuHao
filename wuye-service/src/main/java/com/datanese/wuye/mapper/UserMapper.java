@@ -1,7 +1,8 @@
 package com.datanese.wuye.mapper;
 
-import com.datanese.wuye.po.AccountPO;
+import com.datanese.wuye.dto.CommunityDTO;
 import com.datanese.wuye.po.UserPO;
+import com.datanese.wuye.po.WeixinAccountPO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -23,11 +24,11 @@ public interface UserMapper {
 	})
 	UserPO getOne(Long id);
 
-	@Insert("INSERT INTO account(account_id, weixin_id, create_time) VALUES(#{accountId}, #{weixinId}, #{createTime})")
-	void insertAccount(AccountPO user);
+	@Insert("INSERT INTO weixin_account(user_id, open_id,nick_name,gender,language,city,province,country,avatarUrl,unionId) VALUES(#{userId}, #{openid},#{nickname},#{gender},#{language},#{city},#{province},#{country},#{avatarUrl},#{unionid})")
+	void insertWeixinAccount(WeixinAccountPO user);
 
 
-	@Insert("INSERT INTO user_base(account_id,account_name,gender,city,province,country) VALUES(#{accountId}, #{accountName}, #{gender},#{city},#{province},#{country})")
+	@Insert("INSERT INTO user(id,name,gender,avatarUrl) VALUES(#{id}, #{name}, #{gender},#{avatarUrl})")
 	void insertUser(UserPO user);
 
 
@@ -35,16 +36,24 @@ public interface UserMapper {
 	void update(UserPO user);
 
 
-	@Delete("DELETE FROM users WHERE id =#{id}")
-	void delete(Long id);
+//	@Delete("DELETE FROM users WHERE id =#{id}")
+//	void delete(Long id);
 
 
-	@Select("SELECT account_id FROM account WHERE weixin_id = #{weixinId}")
+	@Select("SELECT user_id FROM weixin_account WHERE open_id = #{weixinId}")
 	@Results({
-			@Result(property = "accountId",  column = "account_id")
+			@Result(property = "id",  column = "user_id")
 	})
-	AccountPO getUserAccountByWeixinId(String weixinId);
+	UserPO getUserByWeixinId(String weixinId);
 
-	@Update("UPDATE user_community SET community_id=#{communityId} WHERE user_id =#{userId}")
+	@Update("replace into user_default_community (user_id,community_id) values(#{userId},#{communityId})")
     void setUserDefaultCommunity(long userId, int communityId);
+
+	@Select("select community.* from community,user_default_communit where user_default_community.user_id=#{userId} and user_default_community.community_id=community.id")
+	@Results({
+			@Result(property = "id",  column = "id"),
+			@Result(property = "name",  column = "name"),
+			@Result(property = "image",  column = "image")
+	})
+	CommunityDTO getUserDefaultCommunity(long userId);
 }

@@ -35,10 +35,6 @@ public class CommunityController {
         return communityService.searchCommunities(keyword);
     }
 
-    @GetMapping("/userDefaultCommunity/{userId}")
-    public CommunityDTO getUserDefaultCommunity(@PathVariable long userId) {
-        return communityService.getUserDefaultCommunity(userId);
-    }
 
 
 

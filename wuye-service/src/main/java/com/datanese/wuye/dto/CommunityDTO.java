@@ -6,7 +6,7 @@ package com.datanese.wuye.dto;
 public class CommunityDTO {
     Integer id;
     String name;
-    String imageURL;
+    String image;
 
 
     public Integer getId() {
@@ -25,11 +25,11 @@ public class CommunityDTO {
         this.name = name;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

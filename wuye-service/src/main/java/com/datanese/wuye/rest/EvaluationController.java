@@ -33,31 +33,33 @@ public class EvaluationController {
     @Autowired
     AliyunOSSStorageService aliyunOSSStorageService;
 
-    @GetMapping("/evaluations/{residentialDistrictId}")
-    public  List<EvaluationPO> getAllEvaluation(@PathVariable Integer residentialDistrictId) {
-        List<EvaluationPO> allGoodEvaluation = evaluationService.getAllEvaluation(residentialDistrictId);
+    @GetMapping("/evaluations/all/{communityId}")
+    public  List<EvaluationPO> getAllEvaluation(@PathVariable Integer communityId ) {
+        List<EvaluationPO> allGoodEvaluation = evaluationService.getAllEvaluation(communityId);
         return allGoodEvaluation;
     }
 
-    @GetMapping("/evaluations/{residentialDistrictId}/positive")
-    public  List<EvaluationPO> getAllGoodEvaluation(@PathVariable Integer residentialDistrictId) {
-        List<EvaluationPO> allGoodEvaluation = evaluationService.getAllGoodEvaluation(residentialDistrictId);
+    @GetMapping("/evaluations/positive/{communityId}")
+    public  List<EvaluationPO> getAllGoodEvaluation(@PathVariable Integer communityId) {
+        List<EvaluationPO> allGoodEvaluation = evaluationService.getAllGoodEvaluation(communityId);
         return allGoodEvaluation;
     }
 
-    @GetMapping("/evaluations/{residentialDistrictId}/critical")
-    public  List<EvaluationPO> getAllBadEvaluation(@PathVariable Integer residentialDistrictId) {
-        List<EvaluationPO> allGoodEvaluation = evaluationService.getAllBadEvaluation(residentialDistrictId);
+    @GetMapping("/evaluations/critical/{communityId}")
+    public  List<EvaluationPO> getAllBadEvaluation(@PathVariable Integer communityId) {
+        List<EvaluationPO> allGoodEvaluation = evaluationService.getAllBadEvaluation(communityId);
         return allGoodEvaluation;
     }
 
     @PostMapping("/review")
     public void review(@RequestBody EvaluationDTO evaluationDTO) {
+        //需要校验
         evaluationService.review(evaluationDTO);
     }
 
     @PostMapping("/image/upload")
     public ImageDTO uploadImg(@RequestParam("image") MultipartFile multipartFile)  {
+        //需要校验
         ImageDTO imageDTO=new ImageDTO();
         if (multipartFile.isEmpty() || StringUtils.isEmpty(multipartFile.getOriginalFilename())) {
             imageDTO.setResult("fail");

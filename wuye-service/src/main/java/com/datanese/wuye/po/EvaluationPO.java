@@ -1,17 +1,27 @@
 package com.datanese.wuye.po;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 /**
  * Created by bing.a.qian on 9/10/2017.
  */
 public class EvaluationPO {
     Long id;
-    Integer residentialDistrictId;
+    Integer communityId;
+    long userId;
     Integer rate;
     LocalDateTime createTime;
     String comment;
+    String urls;
+
+    public String getUrls() {
+        return urls;
+    }
+
+    public void setUrls(String urls) {
+        this.urls = urls;
+    }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -28,7 +38,13 @@ public class EvaluationPO {
         this.comment = comment;
     }
 
+    public long getUserId() {
+        return userId;
+    }
 
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     public Long getId() {
         return id;
@@ -38,12 +54,12 @@ public class EvaluationPO {
         this.id = id;
     }
 
-    public Integer getResidentialDistrictId() {
-        return residentialDistrictId;
+    public Integer getCommunityId() {
+        return communityId;
     }
 
-    public void setResidentialDistrictId(Integer residentialDistrictId) {
-        this.residentialDistrictId = residentialDistrictId;
+    public void setCommunityId(Integer communityId) {
+        this.communityId = communityId;
     }
 
     public Integer getRate() {

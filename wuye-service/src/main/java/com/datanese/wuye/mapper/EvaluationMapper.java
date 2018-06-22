@@ -8,36 +8,29 @@ import java.util.List;
 
 
 public interface EvaluationMapper {
-	
-	@Select("SELECT * FROM residential_district")
-	@Results({
-		@Result(property = "id",  column = "id"),
-		@Result(property = "name", column = "name")
-	})
-	List<CommunityPO> getAllResidentialDistrict();
-
-
-	@Select("SELECT * FROM evaluation WHERE residential_district = #{residentialDistrictId} and rate>0")
+	@Select("SELECT * FROM evaluation WHERE community_id = #{communityId} and rate>0")
 	@Results({
 			@Result(property = "id",  column = "id"),
 			@Result(property = "rate", column = "rate"),
 			@Result(property = "comment", column = "comment"),
-			@Result(property = "residentialDistrictId", column = "residential_district"),
-			@Result(property = "createTime", column = "create_time")
+			@Result(property = "communityId", column = "community_id"),
+			@Result(property = "createTime", column = "create_time"),
+            @Result(property = "urls", column = "urls")
 	})
-	 List<EvaluationPO> getAllGoodEvaluation(Integer residentialDistrictId);
+	 List<EvaluationPO> getAllGoodEvaluation(Integer communityId);
 
 
-	@Select("SELECT * FROM evaluation WHERE residential_district = #{residentialDistrictId} and rate<0")
-	@Results({
-			@Result(property = "id",  column = "id"),
-			@Result(property = "rate", column = "rate"),
-			@Result(property = "comment", column = "comment"),
-			@Result(property = "residentialDistrictId", column = "residential_district")
-	})
+	@Select("SELECT * FROM evaluation WHERE community_id = #{communityId} and rate<0")
+    @Results({
+            @Result(property = "id",  column = "id"),
+            @Result(property = "rate", column = "rate"),
+            @Result(property = "comment", column = "comment"),
+            @Result(property = "communityId", column = "community_id"),
+            @Result(property = "createTime", column = "create_time"),
+            @Result(property = "urls", column = "urls")
+    })
 	List<EvaluationPO> getAllBadEvaluation(Integer residentialDistrictId);
 
-	@Insert("INSERT INTO evaluation(rate,comment,residential_district) VALUES(#{rate}, #{comment}, #{residentialDistrictId})")
+	@Insert("INSERT INTO evaluation(id,community_id,user_id,rate,comment,urls) VALUES(#{id},#{communityId},#{userId},#{rate}, #{comment}, #{urls})")
 	void insertEvaluation(EvaluationPO evaluationDTO);
-
 }
