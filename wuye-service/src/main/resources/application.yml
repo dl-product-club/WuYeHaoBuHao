@@ -8,8 +8,38 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://182.92.106.144:9176/bnese
-        username: bneseadmin
-        password: tdi9765y
+        url: jdbc:mysql://47.104.206.27:3306/wuye?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: qianyitiandedie
+    redis:
+          database: 0
+          host: 192.168.133.128
+          port: 6379
+          timeout: 0
+          pool:
+              max-active: 8
+              max-wait: -1
+              max-idle: 8
+              min-idle: 0
 server:
     port: 8081
+
+aliyun:
+    oss:
+      endpoint: oss-cn-qingdao.aliyuncs.com
+      accessKeyId: LTAIUTqvVjBI6b3E
+      accessKeySecret: WZ1q3tAmXXV6cmzhElnULs0ene9xbe
+      bucketName: wuyehaobuhao-test
+
+wechat:
+  miniapp:
+    appid: 111
+    secret: 111
+    token: 111
+    aesKey: 111
+    msgDataFormat: JSON
+logging:
+  level: debug
+  level.com.datanese: debug
+  path: logs/
+  file: wuye.log

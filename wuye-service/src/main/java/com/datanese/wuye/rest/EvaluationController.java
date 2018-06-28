@@ -40,14 +40,14 @@ public class EvaluationController {
     }
 
     @GetMapping("/evaluations/positive/{communityId}")
-    public  List<EvaluationPO> getAllGoodEvaluation(@PathVariable Integer communityId) {
-        List<EvaluationPO> allGoodEvaluation = evaluationService.getAllGoodEvaluation(communityId);
+    public  List<EvaluationDTO> getAllGoodEvaluation(@PathVariable Integer communityId) {
+        List<EvaluationDTO> allGoodEvaluation = evaluationService.getAllGoodEvaluation(communityId);
         return allGoodEvaluation;
     }
 
     @GetMapping("/evaluations/critical/{communityId}")
-    public  List<EvaluationPO> getAllBadEvaluation(@PathVariable Integer communityId) {
-        List<EvaluationPO> allGoodEvaluation = evaluationService.getAllBadEvaluation(communityId);
+    public  List<EvaluationDTO> getAllBadEvaluation(@PathVariable Integer communityId) {
+        List<EvaluationDTO> allGoodEvaluation = evaluationService.getAllBadEvaluation(communityId);
         return allGoodEvaluation;
     }
 

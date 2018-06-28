@@ -46,10 +46,10 @@ public interface UserMapper {
 	})
 	UserPO getUserByWeixinId(String weixinId);
 
-	@Update("replace into user_default_community (user_id,community_id) values(#{userId},#{communityId})")
-    void setUserDefaultCommunity(long userId, int communityId);
+	@Insert("replace into user_default_community (user_id,community_id) values(#{userId},#{communityId})")
+    void setUserDefaultCommunity(@Param("userId")long userId, @Param("communityId")int communityId);
 
-	@Select("select community.* from community,user_default_communit where user_default_community.user_id=#{userId} and user_default_community.community_id=community.id")
+	@Select("select community.* from community,user_default_community where user_default_community.user_id=#{userId} and user_default_community.community_id=community.id")
 	@Results({
 			@Result(property = "id",  column = "id"),
 			@Result(property = "name",  column = "name"),

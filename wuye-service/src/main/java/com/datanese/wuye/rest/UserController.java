@@ -25,7 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
-	
+	private static boolean MOCK_WECHAT=true;
+
 	@Autowired
 	private UserService userService;
 
@@ -39,7 +40,7 @@ public class UserController {
     /**
      * 登陆接口
      */
-    @GetMapping("/login/{id}")
+    @GetMapping("/login/{code}")
     public String login(@PathVariable("code") String code) {
         if (StringUtils.isBlank(code)) {
             return "empty jscode";
@@ -47,7 +48,14 @@ public class UserController {
 
         try {
             //获取openid, session_key
-            WxMaJscode2SessionResult session = this.wxService.getUserService().getSessionInfo(code);
+            WxMaJscode2SessionResult session = null;
+            if(MOCK_WECHAT){
+                session=new WxMaJscode2SessionResult();
+                session.setSessionKey("test_session_key_"+SnowflakeIdWorker.nextId());
+                session.setOpenid("openID_"+SnowflakeIdWorker.nextId());
+            }else{
+                session = this.wxService.getUserService().getSessionInfo(code);
+            }
             String sessionKey=session.getSessionKey();
             String openId=session.getOpenid();
             logger.info(session.getSessionKey());
@@ -74,7 +82,7 @@ public class UserController {
      * 创建或者更新用户信息
      * </pre>
      */
-    @GetMapping("/updateUserInfo")
+    @PostMapping("/updateUserInfo")
     @ResponseBody
     public ResultDTO updateUserInfo(@RequestHeader HttpHeaders headers, String signature, String rawData, String encryptedData, String iv) {
         ResultDTO resultDTO=new ResultDTO();
@@ -99,18 +107,20 @@ public class UserController {
 
         String sessionKey=se.getSessionKey();
         String openId=se.getOpenId();
-
-        // 用户信息校验
-        if (!this.wxService.getUserService().checkUserInfo(sessionKey, rawData, signature)) {
-            resultDTO.setResult(Constant.RESPONSE_RESULT_FAIL);
-            resultDTO.setErrorCode(ErrorCode.SESSION_EXPIRED.getCode());
-            resultDTO.setMessage(ErrorCode.SESSION_EXPIRED.getDesc());
-            return resultDTO;
+        WxMaUserInfo userInfo=null;
+        if(MOCK_WECHAT){
+            userInfo=WxMaUserInfo.fromJson(rawData);
+        }else{
+            // 用户信息校验
+            if (!this.wxService.getUserService().checkUserInfo(sessionKey, rawData, signature)) {
+                resultDTO.setResult(Constant.RESPONSE_RESULT_FAIL);
+                resultDTO.setErrorCode(ErrorCode.SESSION_EXPIRED.getCode());
+                resultDTO.setMessage(ErrorCode.SESSION_EXPIRED.getDesc());
+                return resultDTO;
+            }
+            // 解密用户信息
+             userInfo = this.wxService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
         }
-
-        // 解密用户信息
-        WxMaUserInfo userInfo = this.wxService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
-
         //创建或者更新用户信息
         long userId=userService.createOrUpdate(userInfo);
         se=new SessionEntity();
@@ -174,6 +184,7 @@ public class UserController {
     @GetMapping("/userDefaultCommunity/{userId}")
     public CommunityDTO getUserDefaultCommunity(@PathVariable long userId) {
         //需要校验
-        return userService.getUserDefaultCommunity(userId);
+        CommunityDTO dto= userService.getUserDefaultCommunity(userId);
+        return dto;
     }
 }
