@@ -13,6 +13,7 @@ public interface EvaluationMapper {
 			@Result(property = "id",  column = "id"),
 			@Result(property = "rate", column = "rate"),
 			@Result(property = "comment", column = "comment"),
+			@Result(property = "userId", column = "user_id"),
 			@Result(property = "communityId", column = "community_id"),
 			@Result(property = "createTime", column = "create_time"),
             @Result(property = "urls", column = "urls")
@@ -25,6 +26,7 @@ public interface EvaluationMapper {
             @Result(property = "id",  column = "id"),
             @Result(property = "rate", column = "rate"),
             @Result(property = "comment", column = "comment"),
+			@Result(property = "userId", column = "user_id"),
             @Result(property = "communityId", column = "community_id"),
             @Result(property = "createTime", column = "create_time"),
             @Result(property = "urls", column = "urls")

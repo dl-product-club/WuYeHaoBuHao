@@ -13,7 +13,7 @@ spring:
         password: qianyitiandedie
     redis:
           database: 0
-          host: 192.168.133.128
+          host: 192.168.133.129
           port: 6379
           timeout: 0
           pool:

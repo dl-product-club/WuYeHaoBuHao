@@ -6,6 +6,7 @@ import com.datanese.wuye.dto.EvaluationDTO;
 import com.datanese.wuye.mapper.EvaluationMapper;
 import com.datanese.wuye.po.EvaluationPO;
 import com.datanese.wuye.po.CommunityPO;
+import com.datanese.wuye.util.SnowflakeIdWorker;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -66,6 +68,7 @@ public class EvaluationService {
             String result = Joiner.on(";").join(evaluationDTO.getImageURL());
             evaluationPO.setUrls(result);
         }
+        evaluationPO.setId(SnowflakeIdWorker.nextId());
         evaluationMapper.insertEvaluation(evaluationPO);
     }
 
@@ -74,7 +77,8 @@ public class EvaluationService {
     }
 
     public List<EvaluationPO> getAllEvaluation(Integer residentialDistrictId) {
-        return null;
+
+        return new ArrayList<>();
     }
 }
 

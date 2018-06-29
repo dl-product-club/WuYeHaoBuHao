@@ -27,7 +27,7 @@ public class CommunityController {
     AliyunOSSStorageService aliyunOSSStorageService;
 
     @GetMapping("/communities")
-    public List<CommunityDTO> getAllResidentialDistrict(@RequestParam String keyword) {
+    public List<CommunityDTO> getAllResidentialDistrict(@RequestParam(required=false) String keyword) {
         if(StringUtils.isEmpty(keyword)){
             List<CommunityDTO> communityList = communityService.getAllCommunities();
             return communityList;

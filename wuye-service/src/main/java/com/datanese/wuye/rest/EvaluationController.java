@@ -1,8 +1,10 @@
 package com.datanese.wuye.rest;
 
 import com.aliyun.oss.common.utils.IOUtils;
+import com.datanese.wuye.Constant;
 import com.datanese.wuye.dto.EvaluationDTO;
 import com.datanese.wuye.dto.ImageDTO;
+import com.datanese.wuye.dto.ResultDTO;
 import com.datanese.wuye.po.EvaluationPO;
 import com.datanese.wuye.po.CommunityPO;
 import com.datanese.wuye.service.AliyunOSSStorageService;
@@ -52,9 +54,14 @@ public class EvaluationController {
     }
 
     @PostMapping("/review")
-    public void review(@RequestBody EvaluationDTO evaluationDTO) {
+    @ResponseBody
+    public ResultDTO review(@RequestBody EvaluationDTO evaluationDTO) {
         //需要校验
+        //根据headers 的 sessionid 验证用户有效性
         evaluationService.review(evaluationDTO);
+        ResultDTO resultDTO=new ResultDTO();
+        resultDTO.setResult(Constant.RESPONSE_RESULT_OK);
+        return resultDTO;
     }
 
     @PostMapping("/image/upload")
