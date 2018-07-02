@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
-	private static boolean MOCK_WECHAT=true;
+	private static boolean MOCK_WECHAT=false;
 
 	@Autowired
 	private UserService userService;
@@ -177,7 +177,7 @@ public class UserController {
     }
 
     @PutMapping("/setUserDefaultCommunity/{userId}/{communityId}")
-    public void subscribe(@PathVariable("userId") long userId,@PathVariable("communityId") int communityId) {
+    public void setUserDefaultCommunity(@PathVariable("userId") long userId,@PathVariable("communityId") int communityId) {
         //需要校验
         userService.setUserDefaultCommunity(userId,communityId);
     }
