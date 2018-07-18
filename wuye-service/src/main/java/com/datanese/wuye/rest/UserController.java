@@ -165,14 +165,36 @@ public class UserController {
 //		return users;
 //	}
 
-//    @PostMapping("/subscribe")
-//    public void subscribe(@RequestBody WeixinAccountDTO user) {
-//        userService.subscribe(user);
-//    }
 
-    @GetMapping("/getUser/{id}")
-    public UserPO getUser(@PathVariable("id") Long id) {
-    	UserPO user=userService.getUser(id);
+
+    @GetMapping("/currentUser")
+    public ResultDTO getCurrentUser(@RequestHeader HttpHeaders headers) {
+        ResultDTO resultDTO=new ResultDTO();
+        //需要验证
+        String sessionId=headers.getFirst("sessionId");
+        if(StringUtils.isBlank(sessionId)){
+            resultDTO.setResult(Constant.RESPONSE_RESULT_FAIL);
+            resultDTO.setErrorCode(ErrorCode.SESSION_EXPIRED.getCode());
+            resultDTO.setMessage(ErrorCode.SESSION_EXPIRED.getDesc());
+            return resultDTO;
+        }
+
+
+        SessionEntity se= (SessionEntity)redisTemplate.opsForValue().get(sessionId);
+        if(se==null){
+            // session 过期
+            resultDTO.setResult(Constant.RESPONSE_RESULT_FAIL);
+            resultDTO.setErrorCode(ErrorCode.SESSION_EXPIRED.getCode());
+            resultDTO.setMessage(ErrorCode.SESSION_EXPIRED.getDesc());
+            return resultDTO;
+        }
+        if(se.getUserId()<=0){
+            resultDTO.setResult(Constant.RESPONSE_RESULT_FAIL);
+            resultDTO.setErrorCode(ErrorCode.USER_NOT_EXIST.getCode());
+            resultDTO.setMessage(ErrorCode.USER_NOT_EXIST.getDesc());
+            return resultDTO;
+        }
+        UserPO user=userService.getUser(se.getUserId());
         return user;
     }
 
