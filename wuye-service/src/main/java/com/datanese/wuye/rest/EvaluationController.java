@@ -4,6 +4,7 @@ import com.aliyun.oss.common.utils.IOUtils;
 import com.datanese.wuye.Constant;
 import com.datanese.wuye.dto.EvaluationDTO;
 import com.datanese.wuye.dto.ImageDTO;
+import com.datanese.wuye.dto.ResultDTO;
 import com.datanese.wuye.po.EvaluationPO;
 import com.datanese.wuye.service.AliyunOSSStorageService;
 import com.datanese.wuye.service.EvaluationService;

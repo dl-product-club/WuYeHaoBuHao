@@ -180,16 +180,44 @@ public class UserController {
         return userDTO;
     }
 
-    @PutMapping("/setUserDefaultCommunity/{userId}/{communityId}")
-    public void setUserDefaultCommunity(@PathVariable("userId") long userId, @PathVariable("communityId") int communityId) {
-        //需要校验
-        userService.setUserDefaultCommunity(userId, communityId);
+    @PutMapping("/setUserDefaultCommunity/{communityId}")
+    public void setUserDefaultCommunity(@RequestHeader HttpHeaders headers, @PathVariable("communityId") int communityId) throws  Exception{
+        //需要验证
+        String sessionId = headers.getFirst("sessionId");
+        if (StringUtils.isBlank(sessionId)) {
+            throw new SessionExpiredException();
+        }
+        SessionEntity se = (SessionEntity) redisTemplate.opsForValue().get(sessionId);
+        if (se == null) {
+            // session 过期
+            throw new SessionExpiredException();
+        }
+        if (se.getUserId() <= 0) {
+            throw new UserNotExistException();
+        }
+        userService.setUserDefaultCommunity(se.getUserId(), communityId);
     }
 
-    @GetMapping("/userDefaultCommunity/{userId}")
-    public CommunityDTO getUserDefaultCommunity(@PathVariable long userId) {
+    @GetMapping("/userDefaultCommunity/")
+    public CommunityDTO getUserDefaultCommunity(@RequestHeader HttpHeaders headers) throws Exception{
+        //需要验证
+        String sessionId = headers.getFirst("sessionId");
+        if (StringUtils.isBlank(sessionId)) {
+            throw new SessionExpiredException();
+        }
+
+
+        SessionEntity se = (SessionEntity) redisTemplate.opsForValue().get(sessionId);
+        if (se == null) {
+            // session 过期
+            throw new SessionExpiredException();
+        }
+        if (se.getUserId() <= 0) {
+            throw new UserNotExistException();
+        }
+
         //需要校验
-        CommunityDTO dto = userService.getUserDefaultCommunity(userId);
+        CommunityDTO dto = userService.getUserDefaultCommunity(se.getUserId());
         return dto;
     }
 }
