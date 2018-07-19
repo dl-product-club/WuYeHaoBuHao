@@ -9,7 +9,7 @@
         <module name="wuye" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="8">
       <module name="wuye" target="1.8" />
     </bytecodeTargetLevel>
   </component>
