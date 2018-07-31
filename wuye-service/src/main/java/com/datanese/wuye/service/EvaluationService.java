@@ -33,39 +33,39 @@ public class EvaluationService {
     public  List<EvaluationDTO> getAllGoodEvaluation(Integer communityId){
         List<EvaluationPO> poList=evaluationMapper.getAllGoodEvaluation(communityId);
         List<EvaluationDTO> dtoList=new LinkedList();
-        for (EvaluationPO evaluationPO:poList)
-        {
-            String poString = JSON.toJSONString(evaluationPO);
-            EvaluationDTO evaluationDTO = JSON.parseObject(poString, EvaluationDTO.class);
-            List<String> result = Splitter.on(";").trimResults().splitToList(evaluationPO.getUrls());
-            evaluationDTO.setImageURL(result.toArray(new String[result.size()]));
-
-            dtoList.add(evaluationDTO);
-        }
+        toDTO(poList, dtoList);
         return dtoList;
     }
-
-
     public  List<EvaluationDTO> getAllBadEvaluation(@PathVariable Integer communityId) {
         List<EvaluationPO> poList=evaluationMapper.getAllBadEvaluation(communityId);
         List<EvaluationDTO> dtoList=new LinkedList();
+        toDTO(poList, dtoList);
+        return dtoList;
+
+    }
+    private void toDTO(List<EvaluationPO> poList, List<EvaluationDTO> dtoList) {
         for (EvaluationPO evaluationPO:poList)
         {
             String poString = JSON.toJSONString(evaluationPO);
             EvaluationDTO evaluationDTO = JSON.parseObject(poString, EvaluationDTO.class);
-            List<String> result = Splitter.on(";").trimResults().splitToList(evaluationPO.getUrls());
+            List<String> result = Splitter.on(",").trimResults().splitToList(evaluationPO.getUrls());
             evaluationDTO.setImageURL(result.toArray(new String[result.size()]));
+            updateUserNameAndAvatar(evaluationDTO);
             dtoList.add(evaluationDTO);
         }
-        return dtoList;
+    }
 
+    private void updateUserNameAndAvatar(EvaluationDTO evaluationDTO) {
+        evaluationDTO.setUserImage(evaluationDTO.getUserId()+"image");
+        evaluationDTO.setUserNickName(evaluationDTO.getUserId()+"nickname");
     }
 
     public void review(@RequestBody EvaluationDTO evaluationDTO) {
+        evaluationDTO.setCreateTime(null);
         String dtoString = JSON.toJSONString(evaluationDTO);
         EvaluationPO evaluationPO = JSON.parseObject(dtoString, EvaluationPO.class);
         if(evaluationDTO.getImageURL()!=null){
-            String result = Joiner.on(";").join(evaluationDTO.getImageURL());
+            String result = Joiner.on(",").join(evaluationDTO.getImageURL());
             evaluationPO.setUrls(result);
         }
         evaluationPO.setId(SnowflakeIdWorker.nextId());

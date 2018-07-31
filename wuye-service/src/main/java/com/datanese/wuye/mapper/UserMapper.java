@@ -17,7 +17,7 @@ public interface UserMapper {
 	})
 	List<UserPO> getAll();
 	
-	@Select("SELECT * FROM users WHERE id = #{id}")
+	@Select("SELECT * FROM user WHERE id = #{id}")
 	@Results({
 		@Result(property = "userSex",  column = "user_sex"),
 		@Result(property = "nickName", column = "nick_name")
