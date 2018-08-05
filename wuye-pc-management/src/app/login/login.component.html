@@ -1,0 +1,36 @@
+<div class="login-background">
+  <div class="login-logo">物业好不好后台管理系统</div>
+  <form #form="ngForm" class="login-form" (submit)="login()"  name="loginForm">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 login-form-title">登录</div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <input maxlength="20" type="tel" class="form-control" name="telephone" placeholder="用户名" [(ngModel)]="access.name" required>
+        </div>
+      </div>
+      <div class="row" style="position: relative;">
+        <div class="col-12">
+          <input maxlength="10" type="password" class="form-control" name="code" placeholder="密码" [(ngModel)]="access.password" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button [disabled]="!form.valid" type="submit" class="btn btn-primary">登录</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<ng-template #uploadModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{modalHeader}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    {{modalContent}}
+  </div>
+</ng-template>

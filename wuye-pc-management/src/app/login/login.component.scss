@@ -1,0 +1,71 @@
+.login-logo {
+  height: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 20px;
+  font-size: 30px;
+}
+.login-form {
+  width: 400px;
+  margin: 120px;
+  padding: 30px;
+  background: #EFF2F3;
+  box-shadow: 0 0 6px 0 rgba(66,75,93,0.31);
+  button {
+    background: #5AB14B;
+    border-color: #5AB14B;
+    width: 100%;
+  }
+  input {
+    font-size: 14px;
+    color: #909DA1;
+    height: 40px;
+  }
+  .login-form-title {
+    font-size: 20px;
+    color: #2F414E;
+    text-align: center;
+    font-weight: bold;
+  }
+  .row {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .login-title {
+    line-height: 38px;
+  }
+  .button-code {
+    position: absolute;
+    right: 0;
+    padding: 6px 22px 0 0 !important;
+  }
+  .get-code {
+    border: 1px solid #5AB14B;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #5AB14B;
+    background-color: #FFFFFF;
+    height: 28px;
+    line-height: 26px;
+    width: 74px;
+    text-align: center;
+  }
+}
+
+.btn-primary.disabled {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.login-background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: url("../../assets/image/bg.jpg") no-repeat;
+  background-size: cover;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+}
