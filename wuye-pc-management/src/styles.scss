@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+.home-accordion-group {
+  background-color: transparent !important;
+  border: none !important;
+  color: #ffffff;
+}
+
+.card-body {
+  padding: 1.25rem 0 !important;
+}
+
+.large-modal {
+  max-width: 1000px;
+  .modal-content {
+    height: 100%;
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  animation: loading 1s linear infinite;
+}

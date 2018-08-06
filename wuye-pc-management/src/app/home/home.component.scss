@@ -1,0 +1,81 @@
+.home-page {
+  .navbar-brand {
+    color: black;
+  }
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  .home-header {
+    z-index: 1000;
+    height: 64px;
+  }
+  .home-container {
+    height: 100%;
+    background: #F5F7F7;
+    top: 0;
+    position: absolute;
+    width: 100%;
+    padding-top: 64px;
+    z-index: 10;
+    .home-side-menu {
+      padding-top: 64px;
+      height: 100%;
+      width: 200px;
+      display: inline-block;
+      background: #2F414E;
+      z-index: 100;
+      position: absolute;
+      top: 0;
+    }
+  }
+  .home-side-menu-item {
+    font-size: 14px;
+    padding: 12px 40px;
+  }
+  .home-content {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    padding: 64px 0 0 200px;
+    z-index: 10;
+    overflow: scroll;
+  }
+}
+
+.home-holder {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  width: 100%;
+  margin-left: -80px;
+}
+
+.bg-white {
+  background-color: #FFFFFF;
+  img {
+    height: 40px;
+  }
+}
+
+.panel-open {
+  .card-header{
+    background: #5AB14B;
+  }
+}
+
+.accordion-heading-name {
+  padding-left: 12px;
+}
+
+.focus {
+  background-color: #5AB14B;;
+}
+
+
+.padding-16-12 {
+  padding: 16px 12px;
+}

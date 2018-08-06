@@ -1,0 +1,64 @@
+<div class="image-preview-list" *ngIf="checkingList&&checkingList.length>0">
+  <div class="preview-list">
+    <div class="row">
+      <div class="col-1">编号</div>
+      <div class="col-2">用户昵称</div>
+      <div class="col-2">发布内容</div>
+      <div class="col-2">发布图片</div>
+      <div class="col-2">发布时间</div>
+      <div class="col-1">当前状态</div>
+      <div class="col-2">审核操作</div>
+    </div>
+    <div class="row" *ngFor="let checking of checkingList;let i = index;">
+      <div class="col-1">{{i+1}}</div>
+      <div class="col-2">{{checking.userNickName}}</div>
+      <div title="{{checking.comment}}" class="col-2 comment-disply">{{checking.comment}}</div>
+      <div class="col-2">
+        <img *ngFor="let image of checking.imageURL" (click)="showImagePreview(image)" [src]="image" alt="图片取不到">
+      </div>
+      <div class="col-2">{{checking.createTime}}</div>
+      <div class="col-1">{{stateString[checking.state]}}</div>
+      <div class="col-2">
+        <button class="btn btn-danger">不通过</button>
+        <button class="btn btn-success">通过</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="empty-message" *ngIf="!checkingList || checkingList.length == 0">
+  <span style="margin: 12px 15px;">暂时没有待审核的发布内容</span>
+</div>
+
+<ng-template #loadingModal>
+  <div class="modal-body">
+    <i class="fa fa-spinner loading-spinner" aria-hidden="true"></i>
+    <span>数据加载中，请稍后...</span>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #errorModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{modalHeader}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <span *ngIf="modalContent">{{modalContent}}</span>
+  </div>
+</ng-template>
+
+<ng-template #previewModal>
+  <div class="modal-header">
+    <h4 title="{{modalHeader}}" class="modal-title pull-left limit-80">{{modalHeader}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img class="preview-image" *ngIf="imageUrl" [src]="imageUrl" alt="图片解析失败"/>
+  </div>
+</ng-template>

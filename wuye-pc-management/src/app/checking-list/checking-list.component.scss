@@ -1,0 +1,55 @@
+.empty-message {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.limit-80 {
+  max-width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+
+.comment-disply {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+
+.image-preview-list {
+  font-size: 14px;
+  .preview-list {
+    margin: 12px 15px;
+  }
+  .row:nth-child(even) {
+    background: #E3E5E8;;
+  }
+  .row:nth-child(odd) {
+    background: #FFFFFF;
+  }
+  .row:first-child {
+    background: #697F85;
+    color: white;
+    height: 24px;
+    line-height: 24px;
+    & > div {
+      padding: 0;
+    }
+  }
+  .row {
+    margin: 0;
+    max-height: 80px;
+    line-height: 80px;
+    & > div {
+      text-align: center;
+      img {
+        width: auto;
+        max-height: 36px;
+        line-height: 36px;
+      }
+    }
+  }
+}
