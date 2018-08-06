@@ -21,6 +21,6 @@ public class EvaluationPO {
     LocalDateTime createTime;
     String comment;
     String urls;
-
-
+    String userImage;
+    String userNickName;
 }

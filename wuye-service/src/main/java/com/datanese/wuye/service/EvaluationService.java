@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by bing.a.qian on 9/8/2017.
@@ -50,7 +51,7 @@ public class EvaluationService {
             EvaluationDTO evaluationDTO = JSON.parseObject(poString, EvaluationDTO.class);
             List<String> result = Splitter.on(",").trimResults().splitToList(evaluationPO.getUrls());
             evaluationDTO.setImageURL(result.toArray(new String[result.size()]));
-            updateUserNameAndAvatar(evaluationDTO);
+            //updateUserNameAndAvatar(evaluationDTO);
             dtoList.add(evaluationDTO);
         }
     }
@@ -79,6 +80,12 @@ public class EvaluationService {
     public List<EvaluationPO> getAllEvaluation(Integer residentialDistrictId) {
 
         return new ArrayList<>();
+    }
+
+    public long[] getEvaluationNumbers(Integer communityId){
+       long positiveNumber= evaluationMapper.getEvaluationNumber(communityId,1);
+        long negativeNumber= evaluationMapper.getEvaluationNumber(communityId,-1);
+        return new long[]{positiveNumber,negativeNumber};
     }
 }
 

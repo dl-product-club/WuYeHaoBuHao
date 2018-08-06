@@ -40,6 +40,12 @@ public class EvaluationController {
     @Autowired
     AliyunOSSStorageService aliyunOSSStorageService;
 
+    @GetMapping("/evaluationNumbers/{communityId}")
+    public long[]  getEvaluationNumbers(@RequestHeader HttpHeaders headers, @PathVariable Integer communityId)throws Exception{
+        long[] numbers = evaluationService.getEvaluationNumbers(communityId);
+        return numbers;
+    }
+
     @GetMapping("/evaluations/all/{communityId}")
     public  List<EvaluationPO> getAllEvaluation(@RequestHeader HttpHeaders headers, @PathVariable Integer communityId )throws Exception {
         //需要验证
@@ -108,45 +114,5 @@ public class EvaluationController {
         ResultDTO resultDTO=new ResultDTO();
         resultDTO.setResult(Constant.RESPONSE_RESULT_OK);
         return resultDTO;
-    }
-
-    @PostMapping("/image/upload")
-    public ImageDTO uploadImg(@RequestParam("image") MultipartFile multipartFile)  {
-        //需要校验
-        ImageDTO imageDTO=new ImageDTO();
-        if (multipartFile.isEmpty() || StringUtils.isEmpty(multipartFile.getOriginalFilename())) {
-            imageDTO.setResult("fail");
-            imageDTO.setMessage("image is empty");
-            return imageDTO;
-        }
-        InputStream inputStream=null;
-        try {
-            inputStream=multipartFile.getInputStream();
-            String fileName= SnowflakeIdWorker.nextId()+".png";
-            aliyunOSSStorageService.put(fileName,inputStream);
-            imageDTO.setResult("success");
-            imageDTO.setMessage("upload image successfully");
-            imageDTO.setUrl("/image/"+fileName);
-        } catch (IOException e) {
-            logger.error("store to OSS error",e);
-            imageDTO.setResult("fail");
-            imageDTO.setMessage("upload image failed");
-        }finally {
-            IOUtils.safeClose(inputStream);
-        }
-        return imageDTO;
-    }
-    @GetMapping("/image/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<?> getImg(@PathVariable String filename)  {
-        InputStream is=null;
-        try {
-            is=aliyunOSSStorageService.get(filename);
-            return ResponseEntity.ok(new InputStreamResource(is));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }finally {
-            //IOUtils.safeClose(is);
-        }
     }
 }

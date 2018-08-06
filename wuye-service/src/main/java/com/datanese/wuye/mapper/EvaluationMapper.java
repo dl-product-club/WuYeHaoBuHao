@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public interface EvaluationMapper {
-	@Select("SELECT * FROM evaluation WHERE community_id = #{communityId} and rate>0")
+	@Select("SELECT evaluation.*, user.name,user.avatarUrl FROM evaluation,user WHERE community_id = #{communityId} and rate=1 and evaluation.user_id=user.id")
 	@Results({
 			@Result(property = "id",  column = "id"),
 			@Result(property = "rate", column = "rate"),
@@ -16,23 +16,31 @@ public interface EvaluationMapper {
 			@Result(property = "userId", column = "user_id"),
 			@Result(property = "communityId", column = "community_id"),
 			@Result(property = "createTime", column = "create_time"),
-            @Result(property = "urls", column = "urls")
+            @Result(property = "urls", column = "urls"),
+			@Result(property = "userImage",column="avatarUrl"),
+			@Result(property = "userNickName",column="name")
 	})
 	 List<EvaluationPO> getAllGoodEvaluation(Integer communityId);
 
 
-	@Select("SELECT * FROM evaluation WHERE community_id = #{communityId} and rate<0")
-    @Results({
-            @Result(property = "id",  column = "id"),
-            @Result(property = "rate", column = "rate"),
-            @Result(property = "comment", column = "comment"),
+	@Select("SELECT evaluation.*, user.name,user.avatarUrl FROM evaluation,user WHERE community_id = #{communityId} and rate=-1 and evaluation.user_id=user.id")
+	@Results({
+			@Result(property = "id",  column = "id"),
+			@Result(property = "rate", column = "rate"),
+			@Result(property = "comment", column = "comment"),
 			@Result(property = "userId", column = "user_id"),
-            @Result(property = "communityId", column = "community_id"),
-            @Result(property = "createTime", column = "create_time"),
-            @Result(property = "urls", column = "urls")
-    })
-	List<EvaluationPO> getAllBadEvaluation(Integer residentialDistrictId);
+			@Result(property = "communityId", column = "community_id"),
+			@Result(property = "createTime", column = "create_time"),
+			@Result(property = "urls", column = "urls"),
+			@Result(property = "userImage",column="avatarUrl"),
+			@Result(property = "userNickName",column="name")
+	})
+	List<EvaluationPO> getAllBadEvaluation(Integer communityId);
 
 	@Insert("INSERT INTO evaluation(id,community_id,user_id,rate,comment,urls) VALUES(#{id},#{communityId},#{userId},#{rate}, #{comment}, #{urls})")
 	void insertEvaluation(EvaluationPO evaluationDTO);
+
+	@Select("select count(*) from evaluation where community_id=#{communityId} and rate= #{rate}")
+	Long getEvaluationNumber(@Param("communityId")Integer communityId, @Param("rate")Integer rate);
+
 }

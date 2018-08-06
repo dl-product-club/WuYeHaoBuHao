@@ -8,9 +8,9 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/wuye?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
-        username: wuye
-        password: wuye123
+        url: jdbc:mysql://47.104.206.27:3306/wuye?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: qianyitiandedie
     redis:
           database: 0
           host: 192.168.133.129
@@ -27,8 +27,8 @@ server:
 aliyun:
     oss:
       endpoint: oss-cn-qingdao.aliyuncs.com
-      accessKeyId: LTAIUTqvVjBaI6b3E
-      accessKeySecret: WZ1q3tAmXXVx6cmzhElnULs0ene9xbe
+      accessKeyId: LTAIUTqvVjBI6b3E
+      accessKeySecret: WZ1q3tAmXXV6cmzhElnULs0ene9xbe
       bucketName: wuyehaobuhao-test
 
 wechat:
