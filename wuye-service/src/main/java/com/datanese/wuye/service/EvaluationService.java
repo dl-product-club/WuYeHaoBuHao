@@ -31,6 +31,13 @@ public class EvaluationService {
     EvaluationMapper evaluationMapper;
 
 
+    public List<EvaluationDTO> getPreviewEvaluation(Integer communityId) {
+        List<EvaluationPO> poList=evaluationMapper.getPreviewEvaluation(communityId);
+        List<EvaluationDTO> dtoList=new LinkedList();
+        toDTO(poList, dtoList);
+        return dtoList;
+    }
+
     public  List<EvaluationDTO> getAllGoodEvaluation(Integer communityId){
         List<EvaluationPO> poList=evaluationMapper.getAllGoodEvaluation(communityId);
         List<EvaluationDTO> dtoList=new LinkedList();
@@ -77,15 +84,17 @@ public class EvaluationService {
         return null;
     }
 
-    public List<EvaluationPO> getAllEvaluation(Integer residentialDistrictId) {
+    public List<EvaluationPO> getAllEvaluation(Integer communityId) {
 
         return new ArrayList<>();
     }
 
+
+
     public long[] getEvaluationNumbers(Integer communityId){
        long positiveNumber= evaluationMapper.getEvaluationNumber(communityId,1);
-        long negativeNumber= evaluationMapper.getEvaluationNumber(communityId,-1);
-        return new long[]{positiveNumber,negativeNumber};
+       long negativeNumber= evaluationMapper.getEvaluationNumber(communityId,-1);
+       return new long[]{positiveNumber,negativeNumber};
     }
 }
 

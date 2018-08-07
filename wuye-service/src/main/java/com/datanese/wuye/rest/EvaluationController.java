@@ -46,23 +46,23 @@ public class EvaluationController {
         return numbers;
     }
 
-    @GetMapping("/evaluations/all/{communityId}")
-    public  List<EvaluationPO> getAllEvaluation(@RequestHeader HttpHeaders headers, @PathVariable Integer communityId )throws Exception {
+    @GetMapping("/evaluations/preview/{communityId}")
+    public  List<EvaluationDTO> getPreviewEvaluation(@RequestHeader HttpHeaders headers, @PathVariable Integer communityId )throws Exception {
         //需要验证
-        String sessionId = headers.getFirst("sessionId");
-        if (StringUtils.isBlank(sessionId)) {
-            throw new SessionExpiredException();
-        }
-        SessionEntity se = (SessionEntity) redisTemplate.opsForValue().get(sessionId);
-        if (se == null) {
-            // session 过期
-            throw new SessionExpiredException();
-        }
-        if (se.getUserId() <= 0) {
-            throw new UserNotExistException();
-        }
-        List<EvaluationPO> allGoodEvaluation = evaluationService.getAllEvaluation(communityId);
-        return allGoodEvaluation;
+//        String sessionId = headers.getFirst("sessionId");
+//        if (StringUtils.isBlank(sessionId)) {
+//            throw new SessionExpiredException();
+//        }
+//        SessionEntity se = (SessionEntity) redisTemplate.opsForValue().get(sessionId);
+//        if (se == null) {
+//            // session 过期
+//            throw new SessionExpiredException();
+//        }
+//        if (se.getUserId() <= 0) {
+//            throw new UserNotExistException();
+//        }
+        List<EvaluationDTO> previewEvaluation = evaluationService.getPreviewEvaluation(communityId);
+        return previewEvaluation;
     }
 
     @GetMapping("/evaluations/positive/{communityId}")

@@ -8,7 +8,22 @@ import java.util.List;
 
 
 public interface EvaluationMapper {
-	@Select("SELECT evaluation.*, user.name,user.avatarUrl FROM evaluation,user WHERE community_id = #{communityId} and rate=1 and evaluation.user_id=user.id")
+
+    @Select("SELECT evaluation.*, user.name,user.avatarUrl FROM evaluation,user WHERE community_id = #{communityId} and evaluation.user_id=user.id order by evaluation.create_time desc limit 5")
+    @Results({
+            @Result(property = "id",  column = "id"),
+            @Result(property = "rate", column = "rate"),
+            @Result(property = "comment", column = "comment"),
+            @Result(property = "userId", column = "user_id"),
+            @Result(property = "communityId", column = "community_id"),
+            @Result(property = "createTime", column = "create_time"),
+            @Result(property = "urls", column = "urls"),
+            @Result(property = "userImage",column="avatarUrl"),
+            @Result(property = "userNickName",column="name")
+    })
+    List<EvaluationPO> getPreviewEvaluation(Integer communityId);
+
+	@Select("SELECT evaluation.*, user.name,user.avatarUrl FROM evaluation,user WHERE community_id = #{communityId} and rate=1 and evaluation.user_id=user.id order by evaluation.create_time desc")
 	@Results({
 			@Result(property = "id",  column = "id"),
 			@Result(property = "rate", column = "rate"),
@@ -23,7 +38,7 @@ public interface EvaluationMapper {
 	 List<EvaluationPO> getAllGoodEvaluation(Integer communityId);
 
 
-	@Select("SELECT evaluation.*, user.name,user.avatarUrl FROM evaluation,user WHERE community_id = #{communityId} and rate=-1 and evaluation.user_id=user.id")
+	@Select("SELECT evaluation.*, user.name,user.avatarUrl FROM evaluation,user WHERE community_id = #{communityId} and rate=-1 and evaluation.user_id=user.id order by evaluation.create_time desc")
 	@Results({
 			@Result(property = "id",  column = "id"),
 			@Result(property = "rate", column = "rate"),

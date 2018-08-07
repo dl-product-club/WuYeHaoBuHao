@@ -32,7 +32,7 @@ public class AuditService {
 	            AuditDTO auditDTO = JSON.parseObject(poString, AuditDTO.class);
 	            List<String> result = Splitter.on(",").trimResults().splitToList(auditPO.getUrls());
 	            auditDTO.setImageURL(result.toArray(new String[result.size()]));
-	            updateUserNameAndAvatar(auditDTO);
+	            //updateUserNameAndAvatar(auditDTO);
 	            dtoList.add(auditDTO);
 	        }
 	    }

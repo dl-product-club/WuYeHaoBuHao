@@ -23,6 +23,7 @@ import java.util.List;
 public class CommunityService {
     @Autowired
     private CommunityMapper communityMapper;
+
     public List<CommunityDTO> getAllCommunities() {
         List<CommunityPO> list= communityMapper.getAll();
         String userStr = JSON.toJSONString(list);
