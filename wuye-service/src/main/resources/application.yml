@@ -10,7 +10,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://47.104.206.27:3306/wuye?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
         username: root
-        password: qianyitiandedie
+        password: la1t89yb78
     redis:
           database: 0
           host: 192.168.133.129
@@ -39,7 +39,7 @@ wechat:
     aesKey: 111
     msgDataFormat: JSON
 logging:
-  level: debug
-  level.com.datanese: debug
+  level: info
+  level.com.datanese: info
   path: logs/
   file: wuye.log

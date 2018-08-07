@@ -1,7 +1,7 @@
 package com.datanese.wuye.service;
 
 import com.alibaba.fastjson.JSON;
-import com.datanese.wuye.dto.CommunityDTO;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.datanese.wuye.dto.EvaluationDTO;
 import com.datanese.wuye.mapper.EvaluationMapper;
 import com.datanese.wuye.po.EvaluationPO;
@@ -10,10 +10,9 @@ import com.datanese.wuye.util.SnowflakeIdWorker;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
@@ -38,14 +37,17 @@ public class EvaluationService {
         return dtoList;
     }
 
-    public  List<EvaluationDTO> getAllGoodEvaluation(Integer communityId){
-        List<EvaluationPO> poList=evaluationMapper.getAllGoodEvaluation(communityId);
+    public  List<EvaluationDTO> getAllGoodEvaluation(Pageable pageable, Integer communityId){
+        Page<EvaluationPO> page=new Page<EvaluationPO>(pageable.getPageNumber(),pageable.getPageSize());
+        List<EvaluationPO> poList=evaluationMapper.getAllGoodEvaluation(page,communityId);
+
         List<EvaluationDTO> dtoList=new LinkedList();
         toDTO(poList, dtoList);
         return dtoList;
     }
-    public  List<EvaluationDTO> getAllBadEvaluation(@PathVariable Integer communityId) {
-        List<EvaluationPO> poList=evaluationMapper.getAllBadEvaluation(communityId);
+    public  List<EvaluationDTO> getAllBadEvaluation(Pageable pageable, Integer communityId) {
+        Page<EvaluationPO> page=new Page<EvaluationPO>(pageable.getPageNumber(),pageable.getPageSize());
+        List<EvaluationPO> poList=evaluationMapper.getAllBadEvaluation(page,communityId);
         List<EvaluationDTO> dtoList=new LinkedList();
         toDTO(poList, dtoList);
         return dtoList;

@@ -1,5 +1,7 @@
 package com.datanese.wuye.mapper;
 
+import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.datanese.wuye.po.EvaluationPO;
 import com.datanese.wuye.po.CommunityPO;
 import org.apache.ibatis.annotations.*;
@@ -35,7 +37,7 @@ public interface EvaluationMapper {
 			@Result(property = "userImage",column="avatarUrl"),
 			@Result(property = "userNickName",column="name")
 	})
-	 List<EvaluationPO> getAllGoodEvaluation(Integer communityId);
+	 List<EvaluationPO> getAllGoodEvaluation(Pagination page, Integer communityId);
 
 
 	@Select("SELECT evaluation.*, user.name,user.avatarUrl FROM evaluation,user WHERE community_id = #{communityId} and rate=-1 and evaluation.user_id=user.id order by evaluation.create_time desc")
@@ -50,7 +52,7 @@ public interface EvaluationMapper {
 			@Result(property = "userImage",column="avatarUrl"),
 			@Result(property = "userNickName",column="name")
 	})
-	List<EvaluationPO> getAllBadEvaluation(Integer communityId);
+	List<EvaluationPO> getAllBadEvaluation(Page<EvaluationPO> page, Integer communityId);
 
 	@Insert("INSERT INTO evaluation(id,community_id,user_id,rate,comment,urls) VALUES(#{id},#{communityId},#{userId},#{rate}, #{comment}, #{urls})")
 	void insertEvaluation(EvaluationPO evaluationDTO);

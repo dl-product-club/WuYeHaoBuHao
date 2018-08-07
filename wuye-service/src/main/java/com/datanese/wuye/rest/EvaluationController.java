@@ -17,7 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -66,28 +68,27 @@ public class EvaluationController {
     }
 
     @GetMapping("/evaluations/positive/{communityId}")
-    public  List<EvaluationDTO> getAllGoodEvaluation(@RequestHeader HttpHeaders headers,@PathVariable Integer communityId) throws Exception{
-        List<EvaluationDTO> allGoodEvaluation = evaluationService.getAllGoodEvaluation(communityId);
-
+    public  List<EvaluationDTO> getAllGoodEvaluation(@RequestHeader HttpHeaders headers, @PageableDefault(page = 0, size = 10) Pageable pageable, @PathVariable Integer communityId) throws Exception{
+        List<EvaluationDTO> allGoodEvaluation = evaluationService.getAllGoodEvaluation(pageable,communityId);
         return allGoodEvaluation;
     }
 
     @GetMapping("/evaluations/critical/{communityId}")
-    public  List<EvaluationDTO> getAllBadEvaluation(@RequestHeader HttpHeaders headers,@PathVariable Integer communityId)throws Exception {
-        //需要验证
-        String sessionId = headers.getFirst("sessionId");
-        if (StringUtils.isBlank(sessionId)) {
-            throw new SessionExpiredException();
-        }
-        SessionEntity se = (SessionEntity) redisTemplate.opsForValue().get(sessionId);
-        if (se == null) {
-            // session 过期
-            throw new SessionExpiredException();
-        }
-        if (se.getUserId() <= 0) {
-            throw new UserNotExistException();
-        }
-        List<EvaluationDTO> allGoodEvaluation = evaluationService.getAllBadEvaluation(communityId);
+    public  List<EvaluationDTO> getAllBadEvaluation(@RequestHeader HttpHeaders headers,@PageableDefault(page = 0, size = 10) Pageable pageable,@PathVariable Integer communityId)throws Exception {
+//        //需要验证
+//        String sessionId = headers.getFirst("sessionId");
+//        if (StringUtils.isBlank(sessionId)) {
+//            throw new SessionExpiredException();
+//        }
+//        SessionEntity se = (SessionEntity) redisTemplate.opsForValue().get(sessionId);
+//        if (se == null) {
+//            // session 过期
+//            throw new SessionExpiredException();
+//        }
+//        if (se.getUserId() <= 0) {
+//            throw new UserNotExistException();
+//        }
+        List<EvaluationDTO> allGoodEvaluation = evaluationService.getAllBadEvaluation(pageable,communityId);
         return allGoodEvaluation;
     }
 
