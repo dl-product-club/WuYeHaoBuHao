@@ -32,7 +32,7 @@ import java.util.List;
  */
 @RestController
 public class ImageController {
-    private static String IMAGE_PATH = "https://wuye.qianyitian.com/image/";
+    public static String IMAGE_PATH = "https://wuye.qianyitian.com/image/";
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired

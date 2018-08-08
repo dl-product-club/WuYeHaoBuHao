@@ -24,12 +24,8 @@ public class AliyunOSSStorageService {
 
     @Autowired
     private  OSSClient ossClient;
-    private InputStream inputStream;
-
     public AliyunOSSStorageService() {
-
     }
-
     public void put(String fileName, InputStream inputStream)  {
         PutObjectResult result= ossClient.putObject(ossPropertiesConfig.getBucketName(), fileName, inputStream);
     }
