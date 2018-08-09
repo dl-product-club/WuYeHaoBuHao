@@ -22,7 +22,7 @@ public class EvaluationGenerator {
     private static String GEN_SQL_TEMPLATE = "INSERT INTO `evaluation` VALUES(#{id}, #{communityId}, #{userId}, #{rate}, '#{comment}', '#{datetime}', '#{imageUrls}')";
 
     private static int COMMUNITY_ID = 1;
-    private static int NUMBER = 100;
+    private static int NUMBER = 200;
 
     private List<String> imageList = new ArrayList();
     private List<String> userList = new ArrayList();
@@ -32,26 +32,23 @@ public class EvaluationGenerator {
     public void generateSQL() {
         init();
 
-//        for (int i= 0;i<NUMBER;i++){
-//            long id=SnowflakeIdWorker.nextId();
-//            String user=getRandomUser();
-//            String image=getRandomImage();
-//            Evaluation evaluation=getRandomEvaluation();
-//            String result=GEN_SQL_TEMPLATE;
-//            result=result.replace("#{id}",id+"");
-//            result=result.replace("#{communityId}",COMMUNITY_ID+"");
-//            result=result.replace("#{userId}",user);
-//            result=result.replace("#{rate}",evaluation.rate);
-//            result=result.replace("#{comment}",evaluation.comments);
-//            result=result.replace("#{datetime}",LocalDateTime.now().toString());
-//            result=result.replace("#{imageUrls}",image);
-//
-//            System.out.println(result);
-//        }
-
-
-
-
+        LocalDateTime time= LocalDateTime.now();
+        for (int i= 0;i<NUMBER;i++){
+            time=time.plusMinutes(1);
+            long id=SnowflakeIdWorker.nextId();
+            String user=getRandomUser();
+            String image=getRandomImage();
+            Evaluation evaluation=getRandomEvaluation();
+            String result=GEN_SQL_TEMPLATE;
+            result=result.replace("#{id}",id+"");
+            result=result.replace("#{communityId}",COMMUNITY_ID+"");
+            result=result.replace("#{userId}",user);
+            result=result.replace("#{rate}",evaluation.rate);
+            result=result.replace("#{comment}",evaluation.comments);
+            result=result.replace("#{datetime}",time.toString());
+            result=result.replace("#{imageUrls}",image);
+            System.out.println(result+";");
+        }
     }
 
     private String getRandomImage() {
@@ -97,29 +94,29 @@ public class EvaluationGenerator {
                 imageList.add(path);
             }
         }
-//        try {
-//            List<String> list=Files.readLines(new File("wuye-service/dictionary","users"), Charsets.UTF_8);
-//            for (String line:list) {
-//                userList.add(line);
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return;
-//        }
-//
-//        try {
-//            List<String> list=Files.readLines(new File("wuye-service/dictionary","comments"), Charsets.UTF_8);
-//            for (String line:list) {
-//                String[] array=line.split(";");
-//                Evaluation e=new Evaluation(    );
-//                e.comments=array[0];
-//                e.rate=array[1];
-//                evaluationList.add(e);
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return;
-//        }
+        try {
+            List<String> list=Files.readLines(new File("wuye-service/dictionary","users"), Charsets.UTF_8);
+            for (String line:list) {
+                userList.add(line);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            List<String> list=Files.readLines(new File("wuye-service/dictionary","comments"), Charsets.UTF_8);
+            for (String line:list) {
+                String[] array=line.split(";");
+                Evaluation e=new Evaluation(    );
+                e.comments=array[0];
+                e.rate=array[1];
+                evaluationList.add(e);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
 
 
 
