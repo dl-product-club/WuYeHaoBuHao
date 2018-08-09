@@ -1,5 +1,6 @@
 package com.datanese.wuye.po;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +19,7 @@ public class EvaluationPO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd")
     LocalDateTime createTime;
     String comment;
     String urls;
