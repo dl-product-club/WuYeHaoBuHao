@@ -10,7 +10,7 @@ import com.datanese.wuye.po.AuditPO;
 
 
 public interface AuditMapper {
-	@Select("SELECT * FROM Audit WHERE community_id = #{communityId} and state=2")
+	@Select("SELECT Audit.*, user.name,user.avatarUrl FROM Audit,user WHERE community_id = #{communityId} and state=2 and Audit.user_id=user.id order by Audit.create_time desc limit 5")
 	@Results({
 			@Result(property = "id",  column = "id"),
 			@Result(property = "state", column = "state"),
@@ -20,7 +20,9 @@ public interface AuditMapper {
 			@Result(property = "communityId", column = "community_id"),
 			@Result(property = "createTime", column = "create_time"),
 			@Result(property = "updateTime", column = "update_time"),
-            @Result(property = "urls", column = "urls")
+            @Result(property = "urls", column = "urls"),
+			@Result(property = "userImage",column="avatarUrl"),
+	        @Result(property = "userNickName",column="name")
 	})
 	 List<AuditPO> getAllAudit(Integer communityId);
 }

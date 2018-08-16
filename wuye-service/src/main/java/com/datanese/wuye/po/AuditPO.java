@@ -19,9 +19,10 @@ public class AuditPO
 	    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	    LocalDateTime updateTime;
-	    String comment;
-	   
+	    String comment;	   
 	    String urls;
+	    String userImage;
+	    String userNickName;
 
 
 	}

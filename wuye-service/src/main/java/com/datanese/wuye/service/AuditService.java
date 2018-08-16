@@ -31,13 +31,8 @@ public class AuditService {
 	            String poString = JSON.toJSONString(auditPO);
 	            AuditDTO auditDTO = JSON.parseObject(poString, AuditDTO.class);
 	            List<String> result = Splitter.on(",").trimResults().splitToList(auditPO.getUrls());
-	            auditDTO.setImageURL(result.toArray(new String[result.size()]));
-	            //updateUserNameAndAvatar(auditDTO);
+	            auditDTO.setImageURL(result.toArray(new String[result.size()]));	            
 	            dtoList.add(auditDTO);
 	        }
-	    }
-	    private void updateUserNameAndAvatar(AuditDTO auditDTO) {
-	    	auditDTO.setUserImage(auditDTO.getUserId()+"image");
-	    	auditDTO.setUserNickName(auditDTO.getUserId()+"nickname");
-	    }
+	    }	   
 }

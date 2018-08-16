@@ -51,19 +51,19 @@ public class AuditController {
 
 	    @GetMapping("/audits/all/{communityId}")
 	    public  List<AuditDTO> getAllAudit(@RequestHeader HttpHeaders headers, @PathVariable Integer communityId )throws Exception {
-	        //需要验证
-	        String sessionId = headers.getFirst("sessionId");
-	        if (StringUtils.isBlank(sessionId)) {
-	            throw new SessionExpiredException();
-	        }
-	        SessionEntity se = (SessionEntity) redisTemplate.opsForValue().get(sessionId);
-	        if (se == null) {
-	            // session 过期
-	            throw new SessionExpiredException();
-	        }
-	        if (se.getUserId() <= 0) {
-	            throw new UserNotExistException();
-	        }
+//	        //需要验证
+//	        String sessionId = headers.getFirst("sessionId");
+//	        if (StringUtils.isBlank(sessionId)) {
+//	            throw new SessionExpiredException();
+//	        }
+//	        SessionEntity se = (SessionEntity) redisTemplate.opsForValue().get(sessionId);
+//	        if (se == null) {
+//	            // session 过期
+//	            throw new SessionExpiredException();
+//	        }
+//	        if (se.getUserId() <= 0) {
+//	            throw new UserNotExistException();
+//	        }
 	        List<AuditDTO> allAuditData = auditService.getAllAuditData(communityId);
 	        return allAuditData;
 	    }
