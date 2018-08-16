@@ -4,9 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.datanese.wuye.dto.AuditDTO;
 import com.datanese.wuye.dto.EvaluationDTO;
 import com.datanese.wuye.mapper.AuditMapper;
@@ -18,11 +20,13 @@ import com.google.common.base.Splitter;
 public class AuditService {
 	 @Autowired
 	    private AuditMapper auditMapper;
-	    public List<AuditDTO> getAllAuditData(Integer communityId) {
-	    	   List<AuditPO> poList=auditMapper.getAllAudit(communityId);
+	    public List<AuditDTO> getAllAuditData(Pageable pageable, Integer communityId) {
+	    	  Page<EvaluationPO> page=new Page<EvaluationPO>(pageable.getPageNumber(),pageable.getPageSize());
+	    	   List<AuditPO> poList=auditMapper.getAllAudit(page,communityId);
 	           List<AuditDTO> dtoList=new LinkedList();
 	           toDTO(poList, dtoList);
 	           return dtoList;
+	           
 	    }
 
 	    private void toDTO(List<AuditPO> poList, List<AuditDTO> dtoList) {
