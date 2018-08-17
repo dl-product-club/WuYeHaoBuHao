@@ -7,6 +7,7 @@ import com.datanese.wuye.dto.BadWordDTO;
 import com.datanese.wuye.dto.EvaluationDTO;
 import com.datanese.wuye.dto.ImageDTO;
 import com.datanese.wuye.dto.ResultDTO;
+import com.datanese.wuye.exception.BadWordException;
 import com.datanese.wuye.exception.SessionExpiredException;
 import com.datanese.wuye.exception.UserNotExistException;
 import com.datanese.wuye.po.EvaluationPO;
@@ -118,6 +119,11 @@ public class EvaluationController {
             throw new UserNotExistException();
         }
         //需要校验
+        boolean ok=checkBadWords(evaluationDTO.getComment());
+        if(!ok){
+            //插入到Audit表中
+            throw new BadWordException();
+        }
         //根据headers 的 sessionid 验证用户有效性
         evaluationDTO.setUserId(se.getUserId());
         evaluationService.review(evaluationDTO);
@@ -126,7 +132,9 @@ public class EvaluationController {
         return resultDTO;
     }
 
-    public boolean checkBadWords(String words) {
+    @PostMapping("/checkBadWords")
+    @ResponseBody
+    public boolean checkBadWords(@RequestBody String words) {
         HttpEntity<String> requestEntity = new HttpEntity<String>(words);
         try {
             BadWordDTO result = restTemplate.postForEntity("https://api.datanese.com/badword/check", requestEntity, BadWordDTO.class).getBody();

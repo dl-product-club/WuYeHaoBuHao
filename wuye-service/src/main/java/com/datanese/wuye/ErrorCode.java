@@ -5,7 +5,8 @@ public enum ErrorCode {
      * 40014 不合法的access_token，请开发者认真比对access_token的有效性（如是否过期）.
      */
     SESSION_EXPIRED(40014,"Session过期"),
-    USER_NOT_EXIST(40015,"用户不存在");
+    USER_NOT_EXIST(40015,"用户不存在"),
+    BAD_WORD(40066,"评论中含有敏感词");
 
 
 

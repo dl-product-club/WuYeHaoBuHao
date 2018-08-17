@@ -31,4 +31,16 @@ public class GlobalExceptionHandler {
         return r;
     }
 
+    @ExceptionHandler(value = BadWordException.class)
+    @ResponseBody
+    public ErrorInfoDTO jsonErrorHandler(HttpServletRequest req, BadWordException e) throws Exception {
+        ErrorInfoDTO r = new ErrorInfoDTO();
+        r.setMessage(ErrorCode.BAD_WORD.getDesc());
+        r.setErrorCode(ErrorCode.BAD_WORD.getCode());
+        r.setUrl(req.getRequestURL().toString());
+        return r;
+    }
+
+
+
 }
