@@ -1,7 +1,9 @@
 package com.datanese.wuye.rest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.common.utils.IOUtils;
 import com.datanese.wuye.Constant;
+import com.datanese.wuye.dto.BadWordDTO;
 import com.datanese.wuye.dto.EvaluationDTO;
 import com.datanese.wuye.dto.ImageDTO;
 import com.datanese.wuye.dto.ResultDTO;
@@ -20,9 +22,11 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -41,6 +45,11 @@ public class EvaluationController {
     private RedisTemplate redisTemplate;
     @Autowired
     AliyunOSSStorageService aliyunOSSStorageService;
+
+    @Autowired
+    RestTemplate restTemplate;
+
+
 
     @GetMapping("/evaluationNumbers/{communityId}")
     public long[]  getEvaluationNumbers(@RequestHeader HttpHeaders headers, @PathVariable Integer communityId)throws Exception{
@@ -115,5 +124,16 @@ public class EvaluationController {
         ResultDTO resultDTO=new ResultDTO();
         resultDTO.setResult(Constant.RESPONSE_RESULT_OK);
         return resultDTO;
+    }
+
+    public boolean checkBadWords(String words) {
+        HttpEntity<String> requestEntity = new HttpEntity<String>(words);
+        try {
+            BadWordDTO result = restTemplate.postForEntity("https://api.datanese.com/badword/check", requestEntity, BadWordDTO.class).getBody();
+            return result.getLegal();
+        } catch (Exception e) {
+            logger.error("check bad words error", e);
+        }
+        return true;
     }
 }

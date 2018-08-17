@@ -19,12 +19,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -65,13 +68,32 @@ public class ImageController {
         return imageDTO;
     }
 
-    @GetMapping("/image/{filename:.+}")
+    @GetMapping("/image2/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<?> getImg(@PathVariable String filename) {
+    public ResponseEntity<?> getImg2(@PathVariable String filename) {
         InputStream is = null;
         try {
             is = aliyunOSSStorageService.get(filename);
-            return ResponseEntity.ok(new InputStreamResource(is));
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "image/png");
+            ResponseEntity<InputStreamResource>  re=ResponseEntity.ok().headers(headers).body(new InputStreamResource(is));
+            return re;
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        } finally {
+            //IOUtils.safeClose(is);
+        }
+    }
+
+    @GetMapping("/image/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<?> getImg(@PathVariable String filename) {
+        try {
+            byte[] is = aliyunOSSStorageService.getBytes(filename);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "image/png");
+            ResponseEntity<InputStreamResource>  re=ResponseEntity.ok().headers(headers).body(new InputStreamResource(new ByteArrayInputStream(is)));
+            return re;
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         } finally {

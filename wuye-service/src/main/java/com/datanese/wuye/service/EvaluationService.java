@@ -9,6 +9,7 @@ import com.datanese.wuye.po.CommunityPO;
 import com.datanese.wuye.util.SnowflakeIdWorker;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -58,11 +59,23 @@ public class EvaluationService {
         {
             String poString = JSON.toJSONString(evaluationPO);
             EvaluationDTO evaluationDTO = JSON.parseObject(poString, EvaluationDTO.class);
-            List<String> result = Splitter.on(",").trimResults().splitToList(evaluationPO.getUrls());
-            evaluationDTO.setImageURL(result.toArray(new String[result.size()]));
+            evaluationDTO.setImageURL(convertUrls2StringArray(evaluationPO.getUrls()));
             //updateUserNameAndAvatar(evaluationDTO);
             dtoList.add(evaluationDTO);
         }
+    }
+
+    private String[] convertUrls2StringArray(String urls){
+        if(StringUtils.isBlank(urls)){
+            return new String[0];
+        }
+        List<String> result = Splitter.on(",").trimResults().splitToList(urls);
+        if(result.size()==1&&StringUtils.isBlank(result.get(0))){
+            return new String[0];
+        }
+        return result.toArray(new String[result.size()]);
+
+
     }
 
     private void updateUserNameAndAvatar(EvaluationDTO evaluationDTO) {
@@ -97,6 +110,17 @@ public class EvaluationService {
        long positiveNumber= evaluationMapper.getEvaluationNumber(communityId,1);
        long negativeNumber= evaluationMapper.getEvaluationNumber(communityId,-1);
        return new long[]{positiveNumber,negativeNumber};
+    }
+
+
+    public static void main(String[] args){
+        String input=null;
+        List<String> sss= Splitter.on(",").trimResults().splitToList(null);
+        if(input==null){
+
+        }
+        sss.size();
+
     }
 }
 
