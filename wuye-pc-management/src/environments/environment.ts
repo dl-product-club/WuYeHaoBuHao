@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://120.78.81.170/wuye'
+  baseUrl: 'https://wuye.qianyitian.com/'
 };

@@ -2,31 +2,46 @@
   <div class="preview-list">
     <div class="row">
       <div class="col-1">编号</div>
-      <div class="col-2">用户昵称</div>
+      <div class="col-1">用户</div>
       <div class="col-2">发布内容</div>
       <div class="col-2">发布图片</div>
       <div class="col-2">发布时间</div>
       <div class="col-1">当前状态</div>
-      <div class="col-2">审核操作</div>
+      <div class="col-3">审核操作</div>
     </div>
     <div class="row" *ngFor="let checking of checkingList;let i = index;">
       <div class="col-1">{{i+1}}</div>
-      <div class="col-2">{{checking.userNickName}}</div>
+      <div class="col-1">
+        <!--<img (click)="showImagePreview(image)" [src]="checking.userImage" alt="图片取不到">-->
+        <div>{{checking.userNickName}}</div>
+      </div>
       <div title="{{checking.comment}}" class="col-2 comment-disply">{{checking.comment}}</div>
       <div class="col-2">
         <img *ngFor="let image of checking.imageURL" (click)="showImagePreview(image)" [src]="image" alt="图片取不到">
       </div>
       <div class="col-2">{{checking.createTime}}</div>
       <div class="col-1">{{stateString[checking.state]}}</div>
-      <div class="col-2">
-        <button class="btn btn-danger">不通过</button>
+      <div class="col-3">
+        <button class="btn btn-warning">不通过</button>
         <button class="btn btn-success">通过</button>
+        <button class="btn btn-danger">加入黑名单</button>
       </div>
     </div>
   </div>
 </div>
 <div class="empty-message" *ngIf="!checkingList || checkingList.length == 0">
   <span style="margin: 12px 15px;">暂时没有待审核的发布内容</span>
+</div>
+<div *ngIf="checkingList&&checkingList.length>0">
+  <pager
+    [(ngModel)]="currentPage"
+    (pageChanged)="pageChanged($event)"
+    pageBtnClass="btn"
+    previousText="上一页"
+    nextText="下一页"
+    [itemsPerPage]="10"
+    class="pull-right">
+  </pager>
 </div>
 
 <ng-template #loadingModal>
