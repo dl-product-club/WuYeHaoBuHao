@@ -4,7 +4,7 @@ import {environment} from '../environments/environment';
 @Injectable()
 export class Config {
   DEFAULT_APIS = {
-
+    checkingList: 'audits/all'
   };
 
   MOCK_APIS = {

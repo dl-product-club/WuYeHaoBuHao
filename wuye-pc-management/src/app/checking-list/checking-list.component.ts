@@ -22,6 +22,7 @@ export class CheckingListComponent implements OnInit {
   modalContent: string;
   unsubscribeId: any;
   imageUrl: string;
+  currentPage = 1;
   stateString = {
     1: '待审核'
   };
@@ -37,9 +38,11 @@ export class CheckingListComponent implements OnInit {
   }
 
   getCheckingList() {
+    const communityId = 1;
+    const size = 10;
     this.openModal(this.loadingModal, { ignoreBackdropClick: true });
-    this.http.get(this.config.getEndpoint('checkingList')).subscribe((data: any) => {
-      this.checkingList = data && data.data ? data.data : [];
+    this.http.get(this.config.getEndpoint('checkingList') + `/${communityId}?page=${this.currentPage}&size=${size}`).subscribe((data: any) => {
+      this.checkingList = data || [];
       setTimeout(() => {
         this.bsModalRef.hide();
       }, 500);
@@ -67,5 +70,10 @@ export class CheckingListComponent implements OnInit {
     this.modalHeader = image;
     this.imageUrl = image;
     this.openModal(this.previewModal);
+  }
+
+  pageChanged(event: any): void {
+    console.log('Page changed to: ' + event.page);
+    console.log('Number items per page: ' + event.itemsPerPage);
   }
 }

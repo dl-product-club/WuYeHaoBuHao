@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { AccordionModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap';
 import { AlertModule } from 'ngx-bootstrap';
+import { PaginationModule } from 'ngx-bootstrap';
 
 import { Config } from '../config/config';
 import { AppComponent } from './app.component';
@@ -32,6 +33,7 @@ import { CheckingListComponent } from './checking-list/checking-list.component';
     AngularFontAwesomeModule,
     AppRoutingModule,
     AccordionModule.forRoot(),
+    PaginationModule.forRoot(),
     AlertModule.forRoot(),
     ModalModule.forRoot()
   ],
