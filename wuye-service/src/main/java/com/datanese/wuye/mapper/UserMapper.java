@@ -27,13 +27,15 @@ public interface UserMapper {
 	@Insert("INSERT INTO weixin_account(user_id, open_id,nick_name,gender,language,city,province,country,avatarUrl,unionId) VALUES(#{userId}, #{openid},#{nickname},#{gender},#{language},#{city},#{province},#{country},#{avatarUrl},#{unionid})")
 	void insertWeixinAccount(WeixinAccountPO user);
 
+	@Insert("UPDATE weixin_account SET nick_name=#{nickname},gender=#{gender},language=#{language},city=#{city},province=#{province},country=#{country},unionId=#{unionid} WHERE id =#{userId}")
+	void updateWeixinAccount(WeixinAccountPO user);
 
 	@Insert("INSERT INTO user(id,name,gender,avatarUrl) VALUES(#{id}, #{name}, #{gender},#{avatarUrl})")
 	void insertUser(UserPO user);
 
 
-	@Update("UPDATE users SET userName=#{userName},nick_name=#{nickName} WHERE id =#{id}")
-	void update(UserPO user);
+	@Update("UPDATE user SET name=#{name},gender=#{gender},avatarUrl=#{avatarUrl} WHERE id =#{id}")
+	void updateUser(UserPO user);
 
 
 //	@Delete("DELETE FROM users WHERE id =#{id}")

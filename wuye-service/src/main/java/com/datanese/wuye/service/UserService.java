@@ -32,14 +32,34 @@ public class UserService {
         if (userPO == null) {
             userId=subscribe(user);
         }else{
-            update(user);
+            update(user,userPO.getId());
             userId=userPO.getId();
         }
         return userId;
     }
-    public void update(WxMaUserInfo user){
-
-//        userMapper.update();
+    public void update(WxMaUserInfo user,long userId){
+        WeixinAccountPO weixinAccountPO=new WeixinAccountPO();
+        {
+            weixinAccountPO.setUserId(userId);
+            weixinAccountPO.setOpenid(user.getOpenId());
+            weixinAccountPO.setNickname(user.getNickName());
+            weixinAccountPO.setCity(user.getCity());
+            weixinAccountPO.setProvince(user.getProvince());
+            weixinAccountPO.setAvatarUrl(user.getAvatarUrl());
+            weixinAccountPO.setCountry(user.getCountry());
+            weixinAccountPO.setGender(user.getGender());
+        }
+        userMapper.updateWeixinAccount(weixinAccountPO);
+        UserPO userPO=new UserPO();
+        {
+            userPO.setId(userId);
+            userPO.setName(user.getNickName());
+            userPO.setAvatarUrl(user.getAvatarUrl());
+            userPO.setGender(user.getGender());
+            userPO.setWeixinId(user.getOpenId());
+        }
+        userMapper.updateUser(userPO);
+        return ;
     }
 
 

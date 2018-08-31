@@ -6,6 +6,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.alibaba.fastjson.JSON;
 import com.datanese.wuye.Constant;
 import com.datanese.wuye.dto.CommunityDTO;
+import com.datanese.wuye.dto.ResultDTO;
 import com.datanese.wuye.dto.UserDTO;
 import com.datanese.wuye.exception.SessionExpiredException;
 import com.datanese.wuye.exception.UserNotExistException;
@@ -220,4 +221,34 @@ public class UserController {
         CommunityDTO dto = userService.getUserDefaultCommunity(se.getUserId());
         return dto;
     }
+
+
+    @PostMapping("/clearMyself/")
+    public ResultDTO clearMyself(@RequestHeader HttpHeaders headers) throws Exception{
+        //需要验证
+        String sessionId = headers.getFirst("sessionId");
+        if (StringUtils.isBlank(sessionId)) {
+            throw new SessionExpiredException();
+        }
+
+
+        SessionEntity se = (SessionEntity) redisTemplate.opsForValue().get(sessionId);
+        if (se == null) {
+            // session 过期
+            throw new SessionExpiredException();
+        }
+
+
+        if (se.getUserId() > 0) {
+            //清空数据库
+
+        }
+        //清空缓存
+        redisTemplate.delete(sessionId);
+
+        ResultDTO resultDTO=new ResultDTO();
+        resultDTO.setResult(Constant.RESPONSE_RESULT_OK);
+        return resultDTO;
+    }
+
 }

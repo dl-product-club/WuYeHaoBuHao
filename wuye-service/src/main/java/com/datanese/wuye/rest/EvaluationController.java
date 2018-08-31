@@ -121,7 +121,7 @@ public class EvaluationController {
         //需要校验
         boolean ok=checkBadWords(evaluationDTO.getComment());
         if(!ok){
-            //插入到Audit表中
+            //TODO 插入到Audit表中
             throw new BadWordException();
         }
         //根据headers 的 sessionid 验证用户有效性
